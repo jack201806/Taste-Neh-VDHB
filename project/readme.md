@@ -1,3 +1,14 @@
 必读
 ----------
-这是我们工程文件夹
+这是我们工程文件夹<br>
+<ul>
+  <li>
+    安卓端-买家版：请见android-buyer文件夹
+  </li>
+  <li>
+    安卓端-卖家版：请见android-seller文件夹
+  </li>
+  <li>
+    服务端：请见javaee-project文件夹
+  </li>
+</ul>
