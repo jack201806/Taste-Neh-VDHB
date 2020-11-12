@@ -8,40 +8,42 @@
   </tr>
   <tr>
     <td>1</td>
-    <td>用户需求（要解决的问题）</td>
-    <td rowspan="2">王昊元</td>
+    <td>问题描述</td>
+    <td rowspan="2">刘海军</td>
   </tr>
   <tr>
     <td>2</td>
-    <td>产品愿景（核心定位）</td>
+    <td>产品愿景和商业机会</td>
   </tr>
   <tr>
     <td>3</td>
-    <td>商业机会（盈利模式等）</td>
+    <td>用户分析</td>
     <td rowspan="2">杨可渡</td>
   </tr>
   <tr>
     <td>4</td>
-    <td>用户分析（用户画像等）</td>
+    <td>技术分析</td>
   </tr>
   <tr>
     <td>5</td>
-    <td>技术可行性分析（语言、框架等）</td>
+    <td>资源需求估计</td>
     <td>廖伟成</td>
   </tr>
   <tr>
     <td>6</td>
-    <td>资源分析（资金、设备、人力等）</td>
+    <td>风险估计</td>
     <td>曹新宇</td>
   </tr>
   <tr>
     <td>7</td>
-    <td>风险分析（贯穿整个项目的风险）</td>
+    <td>产品构思</td>
     <td>潘伟昊</td>
   </tr>
   <tr>
     <td>8</td>
-    <td>收益分析（净现值分析）</td>
-    <td>刘海军</td>
+    <td>界面原型</td>
+    <td>王昊元</td>
   </tr>
 <table>
+
+
