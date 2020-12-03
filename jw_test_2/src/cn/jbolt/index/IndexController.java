@@ -10,6 +10,7 @@ import cn.jbolt.common.model.User;
  * @author jbolt.cn
  * @email 909854136@qq.com
  * @date 2018年11月4日 下午9:02:52
+ * 可以直接往这里写方法
  */
 public class IndexController extends Controller {
 	/**
@@ -46,4 +47,6 @@ public class IndexController extends Controller {
     	removeSessionAttr("us");
     	render("login.html");
     }
+    
+    
 }
