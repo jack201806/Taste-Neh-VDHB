@@ -11,7 +11,7 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="#">首页</a>
 		</li>
-		<li class="active">仪表板</li>
+		<li class="active">主页面</li>
 	</ul><!-- /.breadcrumb -->
 
 	<div class="nav-search" id="nav-search">
