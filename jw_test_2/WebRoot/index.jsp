@@ -108,13 +108,14 @@
 	<script src="assets/js/flot/jquery.flot.min.js"></script>
 	<script src="assets/js/flot/jquery.flot.pie.min.js"></script>
 	<script src="assets/js/flot/jquery.flot.resize.min.js"></script>
-	<!-- page specific plugin scripts -->
-	<script src="assets/js/jquery.dataTables.min.js"></script>
-	<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
 	
 	<!-- ace scripts -->
 	<script src="assets/js/ace-elements.min.js"></script>
 	<script src="assets/js/ace.min.js"></script>
+	
+	<!-- page specific plugin scripts -->
+	<script src="assets/js/jquery.dataTables.min.js"></script>
+	<script src="assets/js/jquery.dataTables.bootstrap.js"></script>
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
 		jQuery(function($) {

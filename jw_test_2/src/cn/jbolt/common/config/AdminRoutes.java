@@ -2,6 +2,9 @@ package cn.jbolt.common.config;
 
 import com.jfinal.config.Routes;
 
+import cn.jbolt.android.AndroidController;
+import cn.jbolt.index.IndexController;
+
 public class AdminRoutes extends Routes {
 
 	@Override
@@ -11,7 +14,9 @@ public class AdminRoutes extends Routes {
 		//针对一组路由配置单独的拦截器
 		//this.addInterceptor(new AdminAuthInterceptor());
 		//针对后台管理系统配置路由+controller
-		//this.add("/admin", AdminIndexController.class,"/index");
+//		this.add("/admin", IndexController.class,"/index");
+		this.add("/", IndexController.class);
+		this.add("/", AndroidController.class, "/android");
 	}
 
 }

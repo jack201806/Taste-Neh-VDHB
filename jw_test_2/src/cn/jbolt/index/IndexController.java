@@ -1,10 +1,19 @@
 package cn.jbolt.index;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 import com.jfinal.core.Controller;
 
 import cn.jbolt.common.model.Manager;
 import cn.jbolt.common.model.User;
+
 /**
  * IndexController 指向系统访问首页
  * @author jbolt.cn
@@ -13,6 +22,7 @@ import cn.jbolt.common.model.User;
  * 可以直接往这里写方法
  */
 public class IndexController extends Controller {
+	
 	/**
 	 * 首页Action
 	 */
@@ -47,6 +57,5 @@ public class IndexController extends Controller {
     	removeSessionAttr("us");
     	render("login.html");
     }
-    
     
 }
