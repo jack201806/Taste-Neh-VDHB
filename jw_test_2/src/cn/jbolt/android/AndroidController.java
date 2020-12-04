@@ -25,6 +25,7 @@ public class AndroidController extends Controller {
     	HttpServletResponse response = getResponse();
     	request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
+		render("安卓用户登录界面"+"<br/>"+"---------------"+"<br/>");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -48,7 +49,7 @@ public class AndroidController extends Controller {
 				render(fail);
 			}
 		}else {
-			System.out.println("现在还没有（移动端）登录的用户哦");
+			render("现在还没有（移动端）登录的用户哦");
 		}
     }
     
@@ -58,6 +59,7 @@ public class AndroidController extends Controller {
     public void android_user_regest() throws IOException{
     	HttpServletRequest request = getRequest();
     	HttpServletResponse response = getResponse();
+		render("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
     	request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		//	需要使用流的方式接收客户端的数据
@@ -85,7 +87,7 @@ public class AndroidController extends Controller {
 				render(fail);
 			}
 		}else {
-			System.out.println("现在还没有（移动端）注册的用户哦");
+			render("现在还没有（移动端）注册的用户哦");
 		}
     }
     
