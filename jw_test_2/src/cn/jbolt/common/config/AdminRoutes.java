@@ -16,7 +16,7 @@ public class AdminRoutes extends Routes {
 		//针对后台管理系统配置路由+controller
 //		this.add("/admin", IndexController.class,"/index");
 		this.add("/", IndexController.class);
-		this.add("/", AndroidController.class, "/android");
+		this.add("/android", IndexController.class, "/");
 	}
 
 }

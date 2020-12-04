@@ -221,7 +221,8 @@ public class MainConfig extends JFinalConfig {
 	}
 	
 	public static void main(String[] args) {
+		
 	}
 	
-
+	
 }
