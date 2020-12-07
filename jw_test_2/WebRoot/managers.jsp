@@ -93,8 +93,7 @@
 													手机号码
 												</th>
 												<th class="hidden-480">用户头像路径</th>
-						
-												<th></th>
+												<th>操作</th>
 											</tr>
 										</thead>
 						

@@ -62,4 +62,13 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends JBoltBaseMod
 		return getStr("intro");
 	}
 
+	public M setProductPhotoSrc(java.lang.String productPhotoSrc) {
+		set("product_photo_src", productPhotoSrc);
+		return (M)this;
+	}
+	
+	public java.lang.String getProductPhotoSrc() {
+		return getStr("product_photo_src");
+	}
+
 }

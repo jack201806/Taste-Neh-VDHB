@@ -11,7 +11,7 @@
 		
 		<!-- 主页面 -->
 		<li class="active">
-			<a href="index.html">
+			<a href="index">
 				<i class="menu-icon fa fa-home"></i>
 				<span class="menu-text"> 主页面 </span>
 			</a>
@@ -20,7 +20,7 @@
 	
 		<!-- 用户管理 -->
 		<li class="">
-			<a href="index.html">
+			<a href="index">
 				<i class="menu-icon fa fa-user"></i>
 				<span class="menu-text"> 用户管理 </span>
 			</a>
@@ -40,9 +40,9 @@
 
 		<!-- 所有商品 -->
 		<li class="">
-			<a href="#" class="dropdown-toggle">
+			<a href="product_chua" class="dropdown-toggle">
 				<i class="menu-icon fa fa-shopping-cart"></i>
-				<span class="menu-text"> 所有商品 </span>
+				<span class="menu-text"> 商品管理 </span>
 
 				<b class="arrow fa fa-angle-down"></b>
 			</a>
@@ -72,9 +72,59 @@
 
 		<!-- 订单管理 -->
 		<li class="">
-			<a href="#" class="dropdown-toggle">
+			<a href="order_chua" class="dropdown-toggle">
 				<i class="menu-icon fa fa-list-alt"></i>
 				<span class="menu-text"> 订单管理 </span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<!-- <ul class="submenu">
+				<li class="">
+					<a href="form-elements.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						表单元素
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+					<a href="form-wizard.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						向导和验证
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+					<a href="wysiwyg.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						可见即可得、Markdown
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+				<li class="">
+					<a href="dropzone.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Dropzone文件上传
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+			</ul> -->
+		</li>
+		
+		<!-- 评论管理 -->
+		<li class="">
+			<a href="comment_chueh" class="dropdown-toggle">
+				<i class="menu-icon fa fa-list-alt"></i>
+				<span class="menu-text"> 评论管理 </span>
 
 				<b class="arrow fa fa-angle-down"></b>
 			</a>

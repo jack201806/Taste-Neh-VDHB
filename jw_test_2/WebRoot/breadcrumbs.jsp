@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
 <!-- 面包屑 -->
 <div class="breadcrumbs" id="breadcrumbs">
 	<script type="text/javascript">
@@ -11,7 +13,29 @@
 			<i class="ace-icon fa fa-home home-icon"></i>
 			<a href="#">首页</a>
 		</li>
-		<li class="active">主页面</li>
+		<li class="active">
+			<c:if test="${requestScope['javax.servlet.forward.request_uri'].contains('index') }">
+				主页面
+			</c:if>
+			<c:if test="${requestScope['javax.servlet.forward.request_uri'].contains('login') }">
+				主页面
+			</c:if>
+			<c:if test="${requestScope['javax.servlet.forward.request_uri'].contains('manager_chueh') }">
+				商家管理
+			</c:if>
+			<c:if test="${requestScope['javax.servlet.forward.request_uri'].contains('product_chua') }">
+				商品管理
+			</c:if>
+			<c:if test="${requestScope['javax.servlet.forward.request_uri'].contains('order_chua') }">
+				订单管理
+			</c:if>
+			<c:if test="${requestScope['javax.servlet.forward.request_uri'].contains('comment_chueh') }">
+				评论管理
+			</c:if>
+		</li>
+		<li>
+			
+		</li>
 	</ul><!-- /.breadcrumb -->
 
 	<div class="nav-search" id="nav-search">

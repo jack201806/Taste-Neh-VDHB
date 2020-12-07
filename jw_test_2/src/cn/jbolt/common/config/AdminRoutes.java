@@ -1,8 +1,9 @@
 package cn.jbolt.common.config;
 
 import com.jfinal.config.Routes;
+import com.jfinal.core.JFinal;
 
-import cn.jbolt.android.AndroidController;
+//import cn.jbolt.android.AndroidController;
 import cn.jbolt.index.IndexController;
 
 public class AdminRoutes extends Routes {
@@ -16,7 +17,12 @@ public class AdminRoutes extends Routes {
 		//针对后台管理系统配置路由+controller
 //		this.add("/admin", IndexController.class,"/index");
 		this.add("/", IndexController.class);
-		this.add("/android", IndexController.class, "/");
+		this.add("/android/", IndexController.class, "/");
 	}
 
+	public static void main(String[] args) {
+		String path = JFinal.me().getContextPath();
+		System.out.println(path);
+	}
+	
 }

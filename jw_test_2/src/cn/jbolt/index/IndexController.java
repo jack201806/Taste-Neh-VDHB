@@ -8,12 +8,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.jfinal.core.Controller;
+//import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.CPI;
 
+//import cn.jbolt.common.config.AdminRoutes;
 import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.Manager;
 import cn.jbolt.common.model.Orders;
@@ -202,7 +209,7 @@ public class IndexController extends Controller {
 	    		user.setId(id);
 	    		setAttr("u_"+id, user);
 	    		setSessionAttr("us_"+id, user);
-				setAttr("regest_icon_src_"+id, user_icon_src);
+				setAttr("regest_icon_src", user_icon_src);
 	    		//	获取完id后，才输出json串
 		    	String json_send = gson.toJson(CPI.getAttrs(user));
 	    		renderText(success+":"+json_send);
@@ -244,5 +251,38 @@ public class IndexController extends Controller {
 		}else {
 			renderText("现在还没有（移动端）注销登录的用户哦");
 		}
+    }
+    
+    /**
+     * 用户头像添加、修改
+     */
+    public void android_user_icon() throws IOException{
+    	HttpServletRequest request = getRequest();
+    	HttpServletResponse response = getResponse();
+		renderText("安卓用户上传头像界面"+"<br/>"+"---------------"+"<br/>");
+    	request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+    	FileItemFactory factory = new DiskFileItemFactory();
+    	ServletFileUpload upload = new ServletFileUpload(factory);
+    	try {
+			List<FileItem> list = upload.parseRequest(request);
+			for (FileItem item : list) {
+				if (item.isFormField()) {
+					System.out.println(item.getFieldName()+":"+item.getString());
+				}else {
+					
+				}
+			}
+		} catch (FileUploadException e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+		}
+    }
+    
+    /**
+     * 向买家版用户端
+     */
+    public void android_shop_init() {
+    	
     }
 }
