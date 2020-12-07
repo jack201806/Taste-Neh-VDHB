@@ -3,7 +3,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +15,8 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.CPI;
 
 import cn.jbolt.common.model.Manager;
+import cn.jbolt.common.model.Order;
+import cn.jbolt.common.model.Product;
 import cn.jbolt.common.model.User;
 
 /**
@@ -77,10 +78,29 @@ public class IndexController extends Controller {
     	List<Manager> managers = Manager.dao.find("select * from manager");
     	System.out.println("现在搜索到的商家数："+managers.size());
     	setAttr("managers_2", managers);
-    	renderJsp("manager.jsp");
+    	renderJsp("managers.jsp");
     }
 
-
+    /**
+     * 进入商品管理界面
+     */
+    public void product_chua() {
+    	List<Product> products = Product.dao.find("select * from product");
+    	System.out.println("现在搜到的商品数："+products.size());
+    	setAttr("products", products);
+    	renderJsp("products.jsp");
+    }
+    
+    /**
+     * 进入订单管理界面
+     */
+    public void order_chua() {
+    	List<Order> orders = Order.dao.find("select * from order");
+    	System.out.println("现在搜到的订单数："+orders.size());
+    	setAttr("orders", orders);
+    	renderJsp("orders.jsp");
+    }
+    
     /**
      * 安卓端用户登录
      * @throws IOException
@@ -115,12 +135,13 @@ public class IndexController extends Controller {
 					+user.getUsername()+"' or phone = '"+user.getUsername()+"' and pwd = '"+user.getPwd()+"'");
 	    	System.out.println(users.size());
 	    	if (users.size()>0) {
-	    		setAttr("u", user);
-	    		setSessionAttr("us", user);
 	    		//	一定是CPI.getAttrs(user);<这才是我们想要的json串>
 	    		String json_send = new Gson().toJson(CPI.getAttrs(users.get(0)));
+	    		int id = users.get(0).getId();
 	    		System.out.println(json_send);
-	    		System.out.println(success+":"+users.get(0).getId());
+	    		System.out.println(success+":"+id);
+	    		setAttr("u_"+id, user);
+	    		setSessionAttr("us_"+id, user);
 	    		renderText(success+":"+json_send);
 			}else {
 				renderText(fail);
@@ -136,7 +157,7 @@ public class IndexController extends Controller {
     public void android_user_regest() throws IOException{
     	HttpServletRequest request = getRequest();
     	HttpServletResponse response = getResponse();
-		render("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
+		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
     	request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		//	需要使用流的方式接收客户端的数据
@@ -149,22 +170,36 @@ public class IndexController extends Controller {
 		String fail = "注册失败，数据库插入异常";
 		String json_regest = reader_2.readLine();
 		if (json_regest!=null) {
+			//	根据指定的json串创建JSONObject对象
+			JSONObject object = new JSONObject(json_regest);
+			//	获取JSONObject对象
+			String username = object.getString("username");
+			String pwd = object.getString("pwd");
+			String phone = object.getString("phone");
+			String user_icon_src = object.getString("user_icon_src");
+			//	创建Json串
 			Gson gson = new Gson();
-			User user = gson.fromJson(json_regest, User.class);
-			user.set("username", user.getUsername());
-	    	user.set("pwd", user.getPwd());
-	    	user.set("phone", user.getPhone());
-	    	user.set("user_icon_src", user.getUserIconSrc());
+			User user = new User();
+			user.setUsername(username);
+	    	user.setPwd(pwd);
+	    	user.setPhone(phone);
+	    	user.setUserIconSrc(user_icon_src);
 	    	boolean b = user.save();
 	    	if (b) {
-	    		setAttr("u", user);
-	    		setSessionAttr("us", user);
-	    		render(success);
+	    		List<User> users = new User().dao().find("select * from user");
+	    		int id = users.get(0).getId();
+	    		user.setId(id);
+	    		setAttr("u_"+id, user);
+	    		setSessionAttr("us_"+id, user);
+				setAttr("regest_icon_src_"+id, user_icon_src);
+	    		//	获取完id后，才输出json串
+		    	String json_send = gson.toJson(CPI.getAttrs(user));
+	    		renderText(success+":"+json_send);
 			}else {
-				render(fail);
+				renderText(fail);
 			}
 		}else {
-			render("现在还没有（移动端）注册的用户哦");
+			renderText("现在还没有（移动端）注册的用户哦");
 		}
     }
     
@@ -173,8 +208,30 @@ public class IndexController extends Controller {
      * @throws IOException
      */
     public void android_user_logout() throws IOException{
-    	removeAttr("u");
-    	removeSessionAttr("us");
-    	render("用户已退出登录");
+    	HttpServletRequest request = getRequest();
+    	HttpServletResponse response = getResponse();
+		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
+    	request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		//	需要使用流的方式接收客户端的数据
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_2 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+
+		String success = "注销登录成功";
+//		String fail = "注销登录失败，请重试";
+		String json_logout = reader_2.readLine();
+		if (json_logout!=null) {
+			//	根据指定的json串创建JSONObject对象
+			JSONObject object = new JSONObject(json_logout);
+			//	获取JSONObject对象
+			int id = object.getInt("id");
+	    	removeAttr("u_"+id);
+	    	removeSessionAttr("us_"+id);
+	    	renderText(success);
+		}else {
+			renderText("现在还没有（移动端）注销登录的用户哦");
+		}
     }
 }

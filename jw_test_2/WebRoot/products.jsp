@@ -67,11 +67,10 @@
 						<!-- JQuery数据表 -->
 						<div class="row">
 							<div class="col-xs-12">
-								<h3 class="header smaller lighter blue">商家表</h3>
+								<h3 class="header smaller lighter blue">商品表</h3>
 								<div class="table-header">
-									"商家"的结果
+									"商品"的结果
 								</div>
-						
 								<!-- <div class="table-responsive"> -->
 								<!-- <div class="dataTables_borderWrap"> -->
 								<div>
@@ -84,23 +83,18 @@
 														<span class="lbl"></span>
 													</label>
 												</th>
-												<th>用户id</th>
-												<th>用户名</th>
-												<th class="hidden-480">密码</th>
-						
-												<th>
-													<i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
-													手机号码
-												</th>
-												<th class="hidden-480">用户头像路径</th>
-						
-												<th></th>
+												<th>商品id</th>
+												<th>店铺id</th>
+												<th>商品名称</th>
+												<th>商品价格</th>
+												<th>商品规格</th>
+												<th class="hidden-480">商品介绍</th>
 											</tr>
 										</thead>
 						
 										<tbody>
 											<!-- 1~10条 -->
-											<c:forEach items="${managers_2 }" var="manager">
+											<c:forEach items="${products }" var="product">
 												<tr>
 													<td class="center">
 														<label class="position-relative">
@@ -110,11 +104,13 @@
 													</td>
 							
 													<td>
-														<a href="#">${manager.id }</a>
+														<a href="#">${product.id }</a>
 													</td>
-													<td>${manager.username }</td>
-													<td class="hidden-480">${manager.pwd }</td>
-													<td>${manager.phone }</td>
+													<td>${product.shop_id }</td>
+													<td class="hidden-480">${product.name }</td>
+													<td>${product.price }</td>
+													<td>${product.standard }</td>
+													<td>${product.intro }</td>
 							
 													<td class="hidden-480">
 														<span class="label label-sm label-inverse arrowed-in">${manager.user_icon_src }</span>

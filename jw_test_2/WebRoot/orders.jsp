@@ -67,11 +67,10 @@
 						<!-- JQuery数据表 -->
 						<div class="row">
 							<div class="col-xs-12">
-								<h3 class="header smaller lighter blue">商家表</h3>
+								<h3 class="header smaller lighter blue">订单表</h3>
 								<div class="table-header">
-									"商家"的结果
+									"订单"的结果
 								</div>
-						
 								<!-- <div class="table-responsive"> -->
 								<!-- <div class="dataTables_borderWrap"> -->
 								<div>
@@ -84,23 +83,19 @@
 														<span class="lbl"></span>
 													</label>
 												</th>
+												<th>订单id</th>
+												<th>商品id</th>
 												<th>用户id</th>
-												<th>用户名</th>
-												<th class="hidden-480">密码</th>
-						
-												<th>
-													<i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>
-													手机号码
-												</th>
-												<th class="hidden-480">用户头像路径</th>
-						
-												<th></th>
+												<th>（订单）商品数量</th>
+												<th>订单金额</th>
+												<th>订单状态</th>
+												<th>订单时间</th>
 											</tr>
 										</thead>
 						
 										<tbody>
 											<!-- 1~10条 -->
-											<c:forEach items="${managers_2 }" var="manager">
+											<c:forEach items="${orders }" var="order">
 												<tr>
 													<td class="center">
 														<label class="position-relative">
@@ -110,15 +105,18 @@
 													</td>
 							
 													<td>
-														<a href="#">${manager.id }</a>
+														<a href="#">${order.id }</a>
 													</td>
-													<td>${manager.username }</td>
-													<td class="hidden-480">${manager.pwd }</td>
-													<td>${manager.phone }</td>
+													<td>${order.product_id }</td>
+													<td>${order.user_id }</td>
+													<td>${order.amount }</td>
+													<td>${order.total }</td>
+													<td>${order.status }</td>
+													<td>${order.time }</td>
 							
-													<td class="hidden-480">
+													<%-- <td class="hidden-480">
 														<span class="label label-sm label-inverse arrowed-in">${manager.user_icon_src }</span>
-													</td>
+													</td> --%>
 							
 													<td>
 														<div class="hidden-sm hidden-xs action-buttons">
