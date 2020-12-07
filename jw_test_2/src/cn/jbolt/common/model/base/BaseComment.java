@@ -53,15 +53,6 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JBoltBaseMod
 		return get("time");
 	}
 
-	public M setCommentPhotoSrc(java.lang.String commentPhotoSrc) {
-		set("comment_photo_src", commentPhotoSrc);
-		return (M)this;
-	}
-	
-	public java.lang.String getCommentPhotoSrc() {
-		return getStr("comment_photo_src");
-	}
-
 	public M setStars(java.lang.Integer stars) {
 		set("stars", stars);
 		return (M)this;

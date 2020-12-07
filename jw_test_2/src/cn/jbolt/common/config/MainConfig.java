@@ -19,8 +19,9 @@ import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.render.ViewType;
 
 import cn.jbolt.common.model.Comment;
+import cn.jbolt.common.model.CommentPhotos;
 import cn.jbolt.common.model.Manager;
-import cn.jbolt.common.model.Order;
+import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
 import cn.jbolt.common.model.ShoppingAddress;
 import cn.jbolt.common.model.ShoppingCart;
@@ -79,6 +80,7 @@ public class MainConfig extends JFinalConfig {
 		
 		
 	}
+	
 	/**
 	 * 配置项目路由
 	 * 路由拆分到 FrontRutes 与 AdminRoutes 之中配置的好处：
@@ -99,6 +101,7 @@ public class MainConfig extends JFinalConfig {
 		//设置默认访问首页路由 可使用http://localhost:port 直接访问 如果80端口 port可以省略
 		me.add("/",IndexController.class);
 	}
+	
 	/**
 	 * 是否是生产环境
 	 * @return
@@ -135,6 +138,7 @@ public class MainConfig extends JFinalConfig {
 			WORKER_ID=prop.getLong("woker_id",0L).longValue();
 		}
 	}
+	
 	/**
 	 * 获取数据库插件
 	 * 抽取成独立的方法，便于重用该方法，减少代码冗余
@@ -143,6 +147,7 @@ public class MainConfig extends JFinalConfig {
 		loadConfig();
 		return new DruidPlugin(prop.get("jdbc_url"), prop.get("user"), prop.get("password"));
 	}
+	
 	/**
 	 * 配置JFinal插件
 	 * 数据库连接池
@@ -175,8 +180,9 @@ public class MainConfig extends JFinalConfig {
 		me.add(arp);
 
 		arp.addMapping("comment", "id", Comment.class);
+		arp.addMapping("comment_photos", "id", CommentPhotos.class);
 		arp.addMapping("manager", "id", Manager.class);
-		arp.addMapping("order", "id", Order.class);
+		arp.addMapping("orders", "id", Orders.class);
 		arp.addMapping("product", "id", Product.class);
 		arp.addMapping("shopping_address", "id", ShoppingAddress.class);
 		arp.addMapping("shopping_cart", "id", ShoppingCart.class);

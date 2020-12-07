@@ -14,8 +14,9 @@ import com.google.gson.Gson;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.CPI;
 
+import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.Manager;
-import cn.jbolt.common.model.Order;
+import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
 import cn.jbolt.common.model.User;
 
@@ -95,10 +96,20 @@ public class IndexController extends Controller {
      * 进入订单管理界面
      */
     public void order_chua() {
-    	List<Order> orders = Order.dao.find("select * from order");
+    	List<Orders> orders = Orders.dao.find("select * from orders");
     	System.out.println("现在搜到的订单数："+orders.size());
     	setAttr("orders", orders);
     	renderJsp("orders.jsp");
+    }
+    
+    /**
+     * 进入评论管理页面
+     */
+    public void comment_chueh() {
+    	List<Comment> comments = Comment.dao.find("select * from comment");
+    	System.out.println("现在搜到的评论数："+comments.size());
+    	setAttr("comments", comments);
+    	renderJsp("comments.jsp");
     }
     
     /**
