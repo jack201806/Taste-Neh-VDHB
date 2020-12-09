@@ -50,7 +50,7 @@ public class MyFragment extends Fragment {
     private LinearLayout myOrder;
     private LinearLayout myCar;
     private LinearLayout myVersion;
-    private LinearLayout myIntroduce;
+    private LinearLayout ourIntroduce;
     private LinearLayout myCount;
     //头像地址
     private String url;
@@ -86,7 +86,7 @@ public class MyFragment extends Fragment {
             myOrder=root.findViewById(R.id.my_order);
             myCar=root.findViewById(R.id.my_car);
             myVersion=root.findViewById(R.id.my_version);
-            myIntroduce=root.findViewById(R.id.my_introduce);
+            ourIntroduce=root.findViewById(R.id.our_introduce);
             myCount=root.findViewById(R.id.my_count);
             Glide.with(getContext()).load(R.raw.header).circleCrop().into(userHead);
             findViews();
@@ -108,7 +108,7 @@ public class MyFragment extends Fragment {
         myOrder.setOnClickListener(listener);
         myCar.setOnClickListener(listener);
         myVersion.setOnClickListener(listener);
-        myIntroduce.setOnClickListener(listener);
+        ourIntroduce.setOnClickListener(listener);
         myCount.setOnClickListener(listener);
         userHead.setOnClickListener(listener);
         login.setOnClickListener(listener);
@@ -152,7 +152,7 @@ public class MyFragment extends Fragment {
                             Intent intent4=new Intent(getActivity(), VersionActivity.class);
                             startActivity(intent4);
                         break;
-                    case R.id.my_introduce:
+                    case R.id.our_introduce:
                             Intent intent3=new Intent(getActivity(), IntroduceActivity.class);
                             startActivity(intent3);
                         break;

@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                                 R.drawable.map_default, Color.rgb(205, 205, 205));
                         changeStyle("tab3",
                                 R.drawable.my, Color.rgb(205, 205, 205));
-                        showToast("进入浏览板块");
                         break;
                     case "tab2":
                         changeStyle("tab1",
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
                                 R.drawable.map, Color.rgb(0,255,0));
                         changeStyle("tab3",
                                 R.drawable.my_default, Color.rgb(205, 205, 205));
-                        showToast("进入地图板块");
                         break;
                     case "tab3":
                         changeStyle("tab1",
@@ -127,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                                 R.drawable.map_default, Color.rgb(205, 205, 205));
                         changeStyle("tab3",
                                 R.drawable.my, Color.rgb(0,255,0));
-                        showToast("进入我的板块");
                         break;
                 }
             }

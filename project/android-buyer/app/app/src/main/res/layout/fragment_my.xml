@@ -67,7 +67,8 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="#ffffff"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/circle_shape1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="16dp"
@@ -84,27 +85,26 @@
             android:id="@+id/my_order"
             android:gravity="center_vertical">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/user"
-                />
+                android:src="@mipmap/order"/>
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的订单"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:layout_weight="1"
                 />
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/right"
-                android:layout_weight="0.1"
-                />
+                android:layout_weight="0.1" />
         </LinearLayout>
         <LinearLayout
             android:padding="5dp"
@@ -116,24 +116,124 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/user"
+                android:src="@mipmap/home"
+                android:layout_marginRight="20dp"
                 />
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的购物车"
-                android:textSize="30dp"
+                android:text="我的收货地址"
+                android:textSize="20dp"
                 android:layout_weight="1"
                 />
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/right"
+                android:layout_weight="0.1"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:padding="5dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/common"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/common"
+                android:layout_marginRight="20dp"
+                />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="隐私通用"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/right"
+                android:layout_weight="0.1"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:padding="5dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/our_introduce"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:src="@mipmap/our_introduce"
+                android:layout_marginRight="20dp"
+                />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="关于我们"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/right"
+                android:layout_weight="0.1"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:padding="5dp"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/question"
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/question"
+                android:layout_marginRight="20dp"
+                />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="问题反馈"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/right"
                 android:layout_weight="0.1"
                 />
@@ -148,56 +248,25 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/user"
+                android:src="@mipmap/version"
+                android:layout_marginRight="20dp"
                 />
             <TextView
                 android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="检查版本更新"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:layout_weight="1"
                 />
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/right"
-                android:layout_weight="0.1"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:padding="5dp"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/my_introduce"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/user"
-                />
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="关于我们"
-                android:textSize="30dp"
-                android:layout_weight="1"
-                />
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/right"
                 android:layout_weight="0.1"
                 />
@@ -212,10 +281,11 @@
             android:gravity="center_vertical"
             android:layout_marginTop="10dp">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/user"
+                android:src="@mipmap/my_count"
+                android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 />
             <TextView
@@ -223,13 +293,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="退出当前账号"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:layout_weight="1"
                 />
             <ImageView
                 android:layout_gravity="center_vertical"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/right"
                 android:layout_weight="0.1"
                 />
