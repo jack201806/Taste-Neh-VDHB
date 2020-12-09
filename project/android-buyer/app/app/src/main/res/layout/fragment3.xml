@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/img"
+    android:src="@mipmap/a2"
+    android:layout_width="20dp"
+    android:layout_height="20dp"/>
+
+    <TextView
+    android:id="@+id/tv_1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="开始:北京, 西二旗地铁站" />
+
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="结束:北京, 百度科技园" />
+
+    <FrameLayout
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true" />
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="130dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="开始采集"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/btn_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="停止采集"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="跑秒"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

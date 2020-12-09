@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#fdaa40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginTop="13dp"
+                android:text="石家庄"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="晴 23℃"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="240dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_circle_shape"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </SearchView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <com.youth.banner.Banner
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/my_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:tabIndicatorColor="#000000"
+        app:tabTextColor="#fff"
+        app:tabSelectedTextColor="#000"
+        android:background="#fdaa40"
+        app:tabIndicatorHeight="2dp">
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/my_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.viewpager.widget.ViewPager>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/lv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <Button
+        android:id="@+id/btn_toJson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="序列化" />
+    <TextView
+        android:id="@+id/tv_json"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="显示序列化的Json串"/>
+    <Button
+        android:id="@+id/btn_toObj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="反序列化"/>
+    <TextView
+        android:id="@+id/tv_obj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="反序列化后的对象状态"/>
+
+</LinearLayout>

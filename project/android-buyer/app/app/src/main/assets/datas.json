@@ -1,0 +1,186 @@
+[
+  {
+    "id": 1,
+    "title": "小吃",
+    "content": [
+      {
+        "id": 2,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼1",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },
+      {
+        "id": 3,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼2",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },{
+        "id": 4,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼3",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },{
+        "id": 5,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼4",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "零食",
+    "content": [
+      {
+        "id": 7,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼5",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },
+      {
+        "id": 8,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼6",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },{
+        "id": 9,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼7",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },{
+        "id": 10,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "酒水",
+    "content": [
+      {
+        "id": 12,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼9",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },
+      {
+        "id": 13,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼10",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },
+      {
+        "id": 14,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼11",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "小吃",
+    "content": [
+      {
+        "id": 16,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼12",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },
+      {
+        "id": 17,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼13",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "活动",
+    "content": [
+      {
+        "id": 19,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼14",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "title": "主食",
+    "content": [
+      {
+        "id": 21,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼15",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },
+      {
+        "id": 22,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼16",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      },{
+        "id": 23,
+        "title": "",
+        "productImg": "/data/data/com.example.browserstore/files/product_imgs/fish.jpg",
+        "productName": "水煮鱼17",
+        "productIntro": "主要材料：鱼肉 有点辣",
+        "productSale": 62,
+        "productPrice": "26.8"
+      }
+    ]
+  }
+]

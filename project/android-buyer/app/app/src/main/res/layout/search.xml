@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#e5e5e5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:background="#fdaa40"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SearchView
+            android:id="@+id/searchView"
+            android:background="@drawable/search_circle_shape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </SearchView>
+    </LinearLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <pl.droidsonroids.gif.GifImageView
+            android:src="@drawable/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+        <ListView
+            android:dividerHeight="10dp"
+            android:divider="@null"
+            android:id="@+id/lv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</LinearLayout>
