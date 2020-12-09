@@ -1,8 +1,10 @@
 package cn.jbolt.index;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +19,8 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.jfinal.core.Controller;
-//import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.CPI;
 
-//import cn.jbolt.common.config.AdminRoutes;
 import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.Manager;
 import cn.jbolt.common.model.Orders;
@@ -36,13 +36,53 @@ import cn.jbolt.common.model.User;
  */
 public class IndexController extends Controller {
 	
+	private static HttpServletRequest request;
+	private static HttpServletResponse response;
+	private static String path,files,files_u,files_p;
+	private static File fu,fp;
+
+	/**
+	 * 初始化一些全局变量
+	 * @throws UnsupportedEncodingException
+	 */
+	public void init() throws UnsupportedEncodingException {
+    	request = getRequest();
+    	response = getResponse();
+    	request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		//	初始化这些所需文件夹
+		path = request.getServletContext().getRealPath("/");
+		System.out.println(path);
+		files = path + "imgs/";
+		files_u = files + "users/";
+		files_p = files + "products/";
+		fu = new File(files_u);
+		fp = new File(files_p);
+		if (!fu.exists()) {
+			boolean b = fu.mkdirs();
+			if (b) {
+				System.out.println("已创建文件夹-用户头像");
+			}
+		}
+		if (!fp.exists()) {
+			boolean b = fp.mkdirs();
+			if (b) {
+				System.out.println("已创建文件夹-商品照片");
+			}
+		}
+	}
+	
 	/**
 	 * 首页Action
+	 * 要想创建多个文件夹，必须在末尾加入斜杠(/)
+	 * @throws UnsupportedEncodingException 
 	 */
-	public void index() {
+	public void index() throws UnsupportedEncodingException {
+		init();
 		if (getSessionAttr("us")==null) {
 			render("login.html");
 		}else {
+			//	初始化用户登录信息
 			List<User> users_2 = User.dao.find("select * from user");
 			System.out.println("现在搜索到的用户数："+users_2.size());
 			setAttr("users_2", users_2);
@@ -51,6 +91,9 @@ public class IndexController extends Controller {
 		}
 	}
 
+	/**
+	 * 后台用户登录
+	 */
 	public void login() {
     	Manager user = getBean(Manager.class,"u");
     	setAttr("u", user);
@@ -71,7 +114,7 @@ public class IndexController extends Controller {
 	}
 
     /**
-     * 退出登录
+     * 后台用户退出登录
      */
     public void logout() {
     	removeAttr("u");
@@ -124,10 +167,7 @@ public class IndexController extends Controller {
      * @throws IOException
      */
     public void android_user_login() throws IOException {
-    	HttpServletRequest request = getRequest();
-    	HttpServletResponse response = getResponse();
-    	request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
+    	init();
 		render("安卓用户登录界面"+"<br/>"+"---------------"+"<br/>");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
@@ -173,11 +213,8 @@ public class IndexController extends Controller {
      * 安卓端用户注册
      */
     public void android_user_regest() throws IOException{
-    	HttpServletRequest request = getRequest();
-    	HttpServletResponse response = getResponse();
+    	init();
 		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
-    	request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -226,11 +263,8 @@ public class IndexController extends Controller {
      * @throws IOException
      */
     public void android_user_logout() throws IOException{
-    	HttpServletRequest request = getRequest();
-    	HttpServletResponse response = getResponse();
+    	init();
 		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
-    	request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -255,13 +289,11 @@ public class IndexController extends Controller {
     
     /**
      * 用户头像添加、修改
+     * @throws Exception 
      */
-    public void android_user_icon() throws IOException{
-    	HttpServletRequest request = getRequest();
-    	HttpServletResponse response = getResponse();
+    public void android_user_icon() throws Exception{
+    	init();
 		renderText("安卓用户上传头像界面"+"<br/>"+"---------------"+"<br/>");
-    	request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
     	FileItemFactory factory = new DiskFileItemFactory();
     	ServletFileUpload upload = new ServletFileUpload(factory);
     	try {
@@ -270,7 +302,16 @@ public class IndexController extends Controller {
 				if (item.isFormField()) {
 					System.out.println(item.getFieldName()+":"+item.getString());
 				}else {
-					
+					if (!fu.exists()) {
+						fu.mkdir();
+					}else {
+						String filename = item.getName();
+						System.out.println(filename);
+						if (filename.contains(".")) {
+							//	获取本地输出流
+							item.write(new File(fu+"/"+filename));
+						}
+					}
 				}
 			}
 		} catch (FileUploadException e) {
@@ -281,8 +322,15 @@ public class IndexController extends Controller {
     
     /**
      * 向买家版用户端
+     * @throws UnsupportedEncodingException 
      */
-    public void android_shop_init() {
-    	
+    public void android_shop_init() throws UnsupportedEncodingException {
+		init();
+		renderText("商品浏览界面"+"<br/>"+"---------------"+"<br/>");
+		if (!fp.exists()) {
+			fp.mkdir();
+		}else {
+			System.out.println("商品照片文件夹已建立，可以操作");
+		}
     }
 }

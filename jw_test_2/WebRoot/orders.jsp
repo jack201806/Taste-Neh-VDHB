@@ -58,9 +58,6 @@
 				<!-- 设置页面 -->
 				<%@ include file="settings.jsp" %>
 				
-				<!-- 页首 -->
-				<%@ include file="page-header.jsp" %>
-				
 				<div class="row">
 					<div class="col-xs-12">
 						<!-- <div class="hr hr-18 dotted hr-double"></div> -->

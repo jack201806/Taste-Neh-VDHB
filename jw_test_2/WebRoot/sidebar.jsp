@@ -26,10 +26,13 @@
 			</a>
 			<b class="arrow"></b>
 		</li>
-
+		
+		<!-- 
+			要想超链接生效，必须去掉类名 class="dropdown-toggle"
+		 -->
 		<!-- 商家管理 -->
 		<li class="">
-			<a href="manager_chueh" class="dropdown-toggle">
+			<a href="manager_chueh">
 				<i class="menu-icon fa fa-cutlery"></i>
 				<span class="menu-text"> 商家管理 </span>
 
@@ -40,7 +43,7 @@
 
 		<!-- 所有商品 -->
 		<li class="">
-			<a href="product_chua" class="dropdown-toggle">
+			<a href="product_chua">
 				<i class="menu-icon fa fa-shopping-cart"></i>
 				<span class="menu-text"> 商品管理 </span>
 
@@ -72,7 +75,7 @@
 
 		<!-- 订单管理 -->
 		<li class="">
-			<a href="order_chua" class="dropdown-toggle">
+			<a href="order_chua">
 				<i class="menu-icon fa fa-list-alt"></i>
 				<span class="menu-text"> 订单管理 </span>
 
@@ -122,7 +125,7 @@
 		
 		<!-- 评论管理 -->
 		<li class="">
-			<a href="comment_chueh" class="dropdown-toggle">
+			<a href="comment_chueh">
 				<i class="menu-icon fa fa-list-alt"></i>
 				<span class="menu-text"> 评论管理 </span>
 

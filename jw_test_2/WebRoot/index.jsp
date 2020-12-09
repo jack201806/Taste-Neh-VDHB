@@ -59,7 +59,7 @@
 				<%@ include file="settings.jsp" %>
 				
 				<!-- 页首 -->
-				<%@ include file="page-header.jsp" %>
+				<%-- <%@ include file="page-header.jsp" %> --%>
 				
 				<div class="row">
 					<div class="col-xs-12">
@@ -69,7 +69,7 @@
 					</div>
 				</div>
 			</div>
-		</div>d
+		</div>
 		
 		<!-- 尾部 -->
 		<%@ include file="footer.jsp" %>

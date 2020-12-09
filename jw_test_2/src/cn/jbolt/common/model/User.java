@@ -11,5 +11,5 @@ public class User extends BaseUser<User> {
 	//建议将dao放在Service中只用作查询 
 	public static final User dao = new User().dao();
 	//在Service中声明 可直接复制过去使用
-	//private User dao = new User().dao();  
+	//private User dao = new User().dao();
 }

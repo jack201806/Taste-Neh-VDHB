@@ -32,7 +32,7 @@
 						</th>
 						<th class="hidden-480">用户头像路径</th>
 
-						<th></th>
+						<th>操作</th>
 					</tr>
 				</thead>
 
@@ -110,77 +110,6 @@
 							</td>
 						</tr>
 					</c:forEach>
-					<!-- 注册 -->
-					<tr>
-						<td class="center">
-							<label class="position-relative">
-								<input type="checkbox" class="ace" />
-								<span class="lbl"></span>
-							</label>
-						</td>
-
-						<td>
-							<a href="#">sight.com</a>
-						</td>
-						<td>$58</td>
-						<td class="hidden-480">6,100</td>
-						<td>2月19日</td>
-
-						<td class="hidden-480">
-							<span class="label label-sm label-inverse arrowed-in">已标记</span>
-						</td>
-
-						<td>
-							<div class="hidden-sm hidden-xs action-buttons">
-								<a class="blue" href="#">
-									<i class="ace-icon fa fa-search-plus bigger-130"></i>
-								</a>
-
-								<a class="green" href="#">
-									<i class="ace-icon fa fa-pencil bigger-130"></i>
-								</a>
-
-								<a class="red" href="#">
-									<i class="ace-icon fa fa-trash-o bigger-130"></i>
-								</a>
-							</div>
-
-							<!-- 标题（Bootstrap） -->
-							<div class="hidden-md hidden-lg">
-								<div class="inline position-relative">
-									<button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto">
-										<i class="ace-icon fa fa-caret-down icon-only bigger-120"></i>
-									</button>
-
-									<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
-										<li>
-											<a href="#" class="tooltip-info" data-rel="tooltip" title="查看">
-												<span class="blue">
-													<i class="ace-icon fa fa-search-plus bigger-120"></i>
-												</span>
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="tooltip-success" data-rel="tooltip" title="编辑">
-												<span class="green">
-													<i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
-												</span>
-											</a>
-										</li>
-
-										<li>
-											<a href="#" class="tooltip-error" data-rel="tooltip" title="删除">
-												<span class="red">
-													<i class="ace-icon fa fa-trash-o bigger-120"></i>
-												</span>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</td>
-					</tr>
 				</tbody>
 			</table>
 		</div>
