@@ -189,7 +189,6 @@ public class IndexController extends Controller {
      */
     public void android_user_login() throws IOException {
     	init();
-		render("安卓用户登录界面"+"<br/>"+"---------------"+"<br/>");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -235,7 +234,6 @@ public class IndexController extends Controller {
      */
     public void android_user_regest() throws IOException{
     	init();
-		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -284,7 +282,6 @@ public class IndexController extends Controller {
      */
     public void android_user_info() throws IOException{
     	init();
-		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -336,7 +333,6 @@ public class IndexController extends Controller {
      */
     public void android_user_logout() throws IOException{
     	init();
-		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
 		//	需要使用流的方式接收客户端的数据
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
@@ -365,7 +361,6 @@ public class IndexController extends Controller {
      */
     public void android_user_icon() throws Exception{
     	init();
-		renderText("安卓用户上传头像界面"+"<br/>"+"---------------"+"<br/>");
     	FileItemFactory factory = new DiskFileItemFactory();
     	ServletFileUpload upload = new ServletFileUpload(factory);
     	try {
@@ -396,20 +391,34 @@ public class IndexController extends Controller {
      */
     public void android_store_init() throws Exception{
     	init();
-		System.out.println("商品浏览界面"+"<br/>"+"---------------"+"<br/>");
-		List<Store> stores = Store.dao.find("select * from store");
-		String store_info = "[";
-		for (Store store : stores) {
-			Gson gson = new Gson();
-			String json = gson.toJson(CPI.getAttrs(store));
-			store_info += json + ",";
+    	renderText("商家浏览界面");
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_5 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String refresh_info = reader_5.readLine();
+		List<Store> stores_0 = Store.dao.find("select * from store");
+		int sum = stores_0.size();
+		if (refresh_info!=null) {
+			System.out.println(refresh_info);
+			int refresh = Integer.parseInt(refresh_info);
+			if (5*refresh<sum) {
+				List<Store> stores = Store.dao.find("select * from store limit "+refresh*5+",5");
+				String store_info = "[";
+				for (Store store : stores) {
+					Gson gson = new Gson();
+					String json = gson.toJson(CPI.getAttrs(store));
+					store_info += json + ",";
+				}
+				store_info = store_info.substring(0,store_info.lastIndexOf(","));
+				store_info += "]";
+				renderText(store_info);
+			}else {
+				System.out.println("店铺信息已发送");
+			}
+		}else {
+			System.out.println("现在还没有查看店铺信息的用户哦");
 		}
-		store_info = store_info.substring(0,store_info.lastIndexOf(","));
-		store_info += "]";
-//		Gson gson = new Gson();
-//		String store_info_0 = gson.toJson(stores);
-//		System.out.println(store_info_0);
-		renderText(store_info);
     }
     
     /**
@@ -418,7 +427,6 @@ public class IndexController extends Controller {
      */
     public void android_product_init() throws UnsupportedEncodingException {
 		init();
-		renderText("商品浏览界面"+"<br/>"+"---------------"+"<br/>");
 		if (!fp.exists()) {
 			fp.mkdir();
 		}else {
