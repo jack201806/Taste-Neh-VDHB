@@ -44,10 +44,8 @@ public class StoreAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.i("lww", "getView");
         ViewHolder holder = null;
         if(null == convertView) {
-            Log.i("lww", "内部");
             //加载item布局文件，赋值给convertView
             convertView = LayoutInflater.from(context)
                     .inflate(layout, null);
@@ -55,6 +53,7 @@ public class StoreAdapter extends BaseAdapter {
             //创建Item中的控件对象
             holder.name = convertView.findViewById(R.id.name);
             holder.image = convertView.findViewById(R.id.image);
+            holder.score = convertView.findViewById(R.id.score);
             //在convertView中缓存holder对象
             convertView.setTag(holder);
         } else {
@@ -63,11 +62,13 @@ public class StoreAdapter extends BaseAdapter {
         //给控件对象赋值
         Store store = stores.get(position);
         holder.name.setText(store.getName());
+        holder.score.setText(String.valueOf(store.getScore()));
         holder.image.setImageResource(R.drawable.fish);
         return convertView;
     }
     static class ViewHolder{
         private TextView name;
         private ImageView image;
+        private TextView score;
     }
 }

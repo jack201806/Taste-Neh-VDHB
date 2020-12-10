@@ -53,7 +53,7 @@ public class CommentActivity extends AppCompatActivity {
                         .countable(true)
                         .capture(true)
                         .maxSelectable(9)
-                        .captureStrategy(new CaptureStrategy(true,"com.example.orders.fileprovider"))
+                        .captureStrategy(new CaptureStrategy(true,"com.example.app.fileprovider"))
                         .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                         .thumbnailScale(0.85f)
                         .imageEngine(new GlideEngine())
