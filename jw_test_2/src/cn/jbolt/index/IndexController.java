@@ -392,10 +392,31 @@ public class IndexController extends Controller {
     }
     
     /**
+     * 向买家版用户提供店铺信息
+     */
+    public void android_store_init() throws Exception{
+    	init();
+		System.out.println("商品浏览界面"+"<br/>"+"---------------"+"<br/>");
+		List<Store> stores = Store.dao.find("select * from store");
+		String store_info = "[";
+		for (Store store : stores) {
+			Gson gson = new Gson();
+			String json = gson.toJson(CPI.getAttrs(store));
+			store_info += json + ",";
+		}
+		store_info = store_info.substring(0,store_info.lastIndexOf(","));
+		store_info += "]";
+//		Gson gson = new Gson();
+//		String store_info_0 = gson.toJson(stores);
+//		System.out.println(store_info_0);
+		renderText(store_info);
+    }
+    
+    /**
      * 向买家版用户端推送商品信息
      * @throws UnsupportedEncodingException 
      */
-    public void android_shop_init() throws UnsupportedEncodingException {
+    public void android_product_init() throws UnsupportedEncodingException {
 		init();
 		renderText("商品浏览界面"+"<br/>"+"---------------"+"<br/>");
 		if (!fp.exists()) {
@@ -410,8 +431,11 @@ public class IndexController extends Controller {
 			String store_info = stores.get(0).getName();
 			//	用Gson生成json串
 			Gson gson = new Gson();
+			String json_0 = gson.toJson(product);
+			System.out.println(json_0);
 			String json = gson.toJson(CPI.getAttrs(product));
-			products_info += json + "*" + store_info + "<br>";
+			System.out.println(json);
+			products_info += json + "*" + store_info + "\n";
 		}
 		renderText(products_info);
     }
@@ -455,7 +479,7 @@ public class IndexController extends Controller {
 				String json = gson.toJson(CPI.getAttrs(order));
 				String json_2 = gson.toJson(CPI.getAttrs(product));
 				String json_3 = gson.toJson(CPI.getAttrs(store));
-				orders_info += json + "*" + json_2 + "*" + json_3 + "<br>";
+				orders_info += json + "*" + json_2 + "*" + json_3 + "\n";
 	    	}
 	    	renderText(orders_info);
 		}else {
