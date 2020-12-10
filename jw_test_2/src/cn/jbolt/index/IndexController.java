@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +25,11 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.CPI;
 
 import cn.jbolt.common.model.Comment;
+import cn.jbolt.common.model.CommentPhotos;
 import cn.jbolt.common.model.Manager;
 import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
+import cn.jbolt.common.model.Store;
 import cn.jbolt.common.model.User;
 
 /**
@@ -38,8 +43,8 @@ public class IndexController extends Controller {
 	
 	private static HttpServletRequest request;
 	private static HttpServletResponse response;
-	private static String path,files,files_u,files_p;
-	private static File fu,fp;
+	private static String path,files,files_u,files_p,files_c,files_s;
+	private static File fu,fp,fc,fs;
 
 	/**
 	 * 初始化一些全局变量
@@ -56,8 +61,12 @@ public class IndexController extends Controller {
 		files = path + "imgs/";
 		files_u = files + "users/";
 		files_p = files + "products/";
+		files_c = files + "comments/";
+		files_s = files + "stores/";
 		fu = new File(files_u);
 		fp = new File(files_p);
+		fc = new File(files_c);
+		fs = new File(files_s);
 		if (!fu.exists()) {
 			boolean b = fu.mkdirs();
 			if (b) {
@@ -68,6 +77,18 @@ public class IndexController extends Controller {
 			boolean b = fp.mkdirs();
 			if (b) {
 				System.out.println("已创建文件夹-商品照片");
+			}
+		}
+		if (!fc.exists()) {
+			boolean b = fc.mkdirs();
+			if (b) {
+				System.out.println("已创建文件夹-评论照片");
+			}
+		}
+		if (!fs.exists()) {
+			boolean b = fs.mkdirs();
+			if (b) {
+				System.out.println("已创建文件夹-店铺照片");
 			}
 		}
 	}
@@ -257,6 +278,57 @@ public class IndexController extends Controller {
 			renderText("现在还没有（移动端）注册的用户哦");
 		}
     }
+
+    /**
+     * 安卓端用户注册
+     */
+    public void android_user_info() throws IOException{
+    	init();
+		renderText("安卓用户注册界面"+"<br/>"+"---------------"+"<br/>");
+		//	需要使用流的方式接收客户端的数据
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_2 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+
+		String success = "注册成功";
+		String fail = "注册失败，数据库插入异常";
+		String json_regest = reader_2.readLine();
+		if (json_regest!=null) {
+			//	根据指定的json串创建JSONObject对象
+			JSONObject object = new JSONObject(json_regest);
+			//	获取JSONObject对象
+			int id_0 = object.getInt("id");
+			String username = object.getString("username");
+			String pwd = object.getString("pwd");
+			String phone = object.getString("phone");
+			String user_icon_src = object.getString("user_icon_src");
+			//	创建Json串
+			Gson gson = new Gson();
+			User user = new User();
+			user.setId(id_0);
+			user.setUsername(username);
+	    	user.setPwd(pwd);
+	    	user.setPhone(phone);
+	    	user.setUserIconSrc(user_icon_src);
+	    	boolean b = user.save();
+	    	if (b) {
+	    		List<User> users = new User().dao().find("select * from user");
+	    		int id = users.get(0).getId();
+	    		user.setId(id);
+	    		setAttr("u_"+id, user);
+	    		setSessionAttr("us_"+id, user);
+				setAttr("regest_icon_src", user_icon_src);
+	    		//	获取完id后，才输出json串
+		    	String json_send = gson.toJson(CPI.getAttrs(user));
+	    		renderText(success+":"+json_send);
+			}else {
+				renderText(fail);
+			}
+		}else {
+			renderText("现在还没有（移动端）注册的用户哦");
+		}
+    }
     
     /**
      * 用户退出登录
@@ -315,13 +387,12 @@ public class IndexController extends Controller {
 				}
 			}
 		} catch (FileUploadException e) {
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
     }
     
     /**
-     * 向买家版用户端
+     * 向买家版用户端推送商品信息
      * @throws UnsupportedEncodingException 
      */
     public void android_shop_init() throws UnsupportedEncodingException {
@@ -332,5 +403,140 @@ public class IndexController extends Controller {
 		}else {
 			System.out.println("商品照片文件夹已建立，可以操作");
 		}
+		List<Product> products = Product.dao.find("select * from product");
+		String products_info = "";
+		for (Product product : products) {
+			List<Store> stores = Store.dao.find("select * from store where id = '"+product.getShopId()+"'");
+			String store_info = stores.get(0).getName();
+			//	用Gson生成json串
+			Gson gson = new Gson();
+			String json = gson.toJson(CPI.getAttrs(product));
+			products_info += json + "*" + store_info + "<br>";
+		}
+		renderText(products_info);
     }
+    
+    
+    /**
+     * 日期转换
+     */
+    public static Date stringToDate(String time) {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");//日期格式
+        Date date = null;
+        try {
+            date = format.parse(time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+    
+    /**
+     * 向买家版用户端推送订单信息
+     */
+    public void android_order_init() throws Exception{
+    	init();
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_3 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String user_info = reader_3.readLine();
+		if (user_info!=null) {
+			JSONObject object = new JSONObject(user_info);
+			int user_id = object.getInt("id");
+	    	List<Orders> orders = Orders.dao.find("select * from orders where user_id = '"+user_id+"'");
+	    	String orders_info = "";
+	    	for (Orders order : orders) {
+				List<Product> products = Product.dao.find("select * from product where id = '"+order.getProductId()+"'");
+				Product product = products.get(0);
+				List<Store> stores = Store.dao.find("select * from store where id = '"+product.getShopId()+"'");
+				Store store = stores.get(0);
+				Gson gson = new Gson();
+				String json = gson.toJson(CPI.getAttrs(order));
+				String json_2 = gson.toJson(CPI.getAttrs(product));
+				String json_3 = gson.toJson(CPI.getAttrs(store));
+				orders_info += json + "*" + json_2 + "*" + json_3 + "<br>";
+	    	}
+	    	renderText(orders_info);
+		}else {
+			renderText("现在还没有查询订单的用户哦");
+		}
+    	
+    }
+    
+    /**
+     * 向买家版用户推送每个商品的评论信息
+     */
+    public void android_comment_init() throws Exception{
+    	init();
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_4 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String user_info = reader_4.readLine();
+		if (user_info!=null) {
+			JSONObject object = new JSONObject(user_info);
+			int user_id = object.getInt("id");
+			List<Comment> comments = Comment.dao.find("select * from comment where user_id = '"+user_id+"'");
+			String comments_info = "";
+			for (Comment comment : comments) {
+				String photos_info = "";
+				List<CommentPhotos> photos = CommentPhotos.dao.find("select * from comment_photos where comment_id = '"+comment.getId()+"'");
+				for (CommentPhotos photo : photos) {
+					photos_info += photo.getPhotoSrc() + ";";
+				}
+				Gson gson = new Gson();
+				String json = gson.toJson(CPI.getAttrs(comment));
+				comments_info += json + "*" + photos_info + "<br>";
+			}
+			renderText(comments_info);
+		}else {
+			renderText("现在还没有查看商品评论的用户哦");
+		}
+    }
+    
+    /**
+     * 买家版下单操作
+     */
+    public void android_post_orders() throws Exception{
+    	init();
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_4 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String order_info = reader_4.readLine();
+		String success = "提交订单成功";
+		String fail = "下单失败，请重试";
+		if (order_info!=null) {
+			//	根据指定的json串创建JSONObject对象
+			JSONObject object = new JSONObject(order_info);
+			int product_id = object.getInt("product_id");
+			int user_id = object.getInt("user_id");
+			int amount = object.getInt("amount");
+			double total = object.getDouble("total");
+			String status = object.getString("status");
+			Date time = stringToDate(object.getString("time"));
+			//	创建Json串
+			Gson gson = new Gson();
+			Orders order = new Orders();
+			order.setProductId(product_id);
+			order.setUserId(user_id);
+			order.setAmount(amount);
+			order.setTotal(total);
+			order.setStatus(status);
+			order.setTime(time);
+			boolean b = order.save();
+			if (b) {
+				renderText(success);
+			}else {
+				renderText(fail);
+			}
+		}else {
+			renderText("现在还没有下单的用户哦");
+		}
+    }
+
+    /**
+     * 买家版
+     */
 }

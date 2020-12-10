@@ -44,6 +44,15 @@ public abstract class BaseStore<M extends BaseStore<M>> extends JBoltBaseModel<M
 		return getStr("location");
 	}
 
+	public M setSale(java.lang.Integer sale) {
+		set("sale", sale);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getSale() {
+		return getInt("sale");
+	}
+
 	public M setScore(java.lang.Double score) {
 		set("score", score);
 		return (M)this;
@@ -51,6 +60,15 @@ public abstract class BaseStore<M extends BaseStore<M>> extends JBoltBaseModel<M
 	
 	public java.lang.Double getScore() {
 		return getDouble("score");
+	}
+
+	public M setStorePhotoSrc(java.lang.String storePhotoSrc) {
+		set("store_photo_src", storePhotoSrc);
+		return (M)this;
+	}
+	
+	public java.lang.String getStorePhotoSrc() {
+		return getStr("store_photo_src");
 	}
 
 }

@@ -14,7 +14,7 @@ import cn.jbolt.common.config.MainConfig;
  * 注意：此文件通过JBolt生成器生成，请勿修改
  * @author jbolt.cn
  * @email 909854136@qq.com
- * @date 2020-12-07 16:15
+ * @date 2020-12-10 08:44
  */
 @SuppressWarnings("serial")
 public abstract class JBoltBaseModel<M extends JBoltBaseModel<M>> extends Model<M> implements IBean{

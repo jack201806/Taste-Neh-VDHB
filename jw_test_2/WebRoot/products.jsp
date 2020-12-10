@@ -110,7 +110,7 @@
 													<td>${product.price }</td>
 													<td>${product.standard }</td>
 													<td>${product.intro }</td>
-							
+													<td>${product.product_photo_src }</td>
 													<td class="hidden-480">
 														<span class="label label-sm label-inverse arrowed-in">${manager.user_icon_src }</span>
 													</td>

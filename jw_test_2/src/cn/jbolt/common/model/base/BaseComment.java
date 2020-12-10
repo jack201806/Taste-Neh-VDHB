@@ -53,13 +53,31 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JBoltBaseMod
 		return get("time");
 	}
 
-	public M setStars(java.lang.Integer stars) {
-		set("stars", stars);
+	public M setTotalScore(java.lang.Float totalScore) {
+		set("total_score", totalScore);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getStars() {
-		return getInt("stars");
+	public java.lang.Float getTotalScore() {
+		return getFloat("total_score");
+	}
+
+	public M setPackageScore(java.lang.Float packageScore) {
+		set("package_score", packageScore);
+		return (M)this;
+	}
+	
+	public java.lang.Float getPackageScore() {
+		return getFloat("package_score");
+	}
+
+	public M setTasteScore(java.lang.Float tasteScore) {
+		set("taste_score", tasteScore);
+		return (M)this;
+	}
+	
+	public java.lang.Float getTasteScore() {
+		return getFloat("taste_score");
 	}
 
 }

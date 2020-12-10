@@ -62,6 +62,15 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends JBoltBaseMod
 		return getStr("intro");
 	}
 
+	public M setSale(java.lang.Integer sale) {
+		set("sale", sale);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getSale() {
+		return getInt("sale");
+	}
+
 	public M setProductPhotoSrc(java.lang.String productPhotoSrc) {
 		set("product_photo_src", productPhotoSrc);
 		return (M)this;
