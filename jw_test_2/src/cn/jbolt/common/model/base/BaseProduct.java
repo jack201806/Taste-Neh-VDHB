@@ -35,13 +35,13 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends JBoltBaseMod
 		return getStr("name");
 	}
 
-	public M setPrice(java.lang.String price) {
+	public M setPrice(java.lang.Double price) {
 		set("price", price);
 		return (M)this;
 	}
 	
-	public java.lang.String getPrice() {
-		return getStr("price");
+	public java.lang.Double getPrice() {
+		return getDouble("price");
 	}
 
 	public M setStandard(java.lang.String standard) {

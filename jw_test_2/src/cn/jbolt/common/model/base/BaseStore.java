@@ -71,4 +71,22 @@ public abstract class BaseStore<M extends BaseStore<M>> extends JBoltBaseModel<M
 		return getStr("store_photo_src");
 	}
 
+	public M setAllowDelivery(java.lang.Double allowDelivery) {
+		set("allow_delivery", allowDelivery);
+		return (M)this;
+	}
+	
+	public java.lang.Double getAllowDelivery() {
+		return getDouble("allow_delivery");
+	}
+
+	public M setDeliveryCost(java.lang.Double deliveryCost) {
+		set("delivery_cost", deliveryCost);
+		return (M)this;
+	}
+	
+	public java.lang.Double getDeliveryCost() {
+		return getDouble("delivery_cost");
+	}
+
 }

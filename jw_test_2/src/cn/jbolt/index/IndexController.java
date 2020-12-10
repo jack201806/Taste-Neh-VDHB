@@ -31,6 +31,7 @@ import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
 import cn.jbolt.common.model.Store;
 import cn.jbolt.common.model.User;
+import cn.jbolt.not_models.SearchProduct;
 
 /**
  * IndexController 指向系统访问首页
@@ -448,6 +449,48 @@ public class IndexController extends Controller {
 		renderText(products_info);
     }
     
+    /**
+     * 向买家版用户端推送商品信息（搜索）
+     */
+    public void android_product_search() throws Exception{
+    	init();
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_6 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String search = reader_6.readLine();
+		String search_json = "[";
+		if (search!=null) {
+			List<Product> list 
+				= Product.dao.find("select * from product where id = "
+									+search+" or shop_id = "
+									+search+" or name = '"
+									+search+"' or price = "
+									+search+" or standard = '"
+									+search+"' or intro = '"
+									+search+"' or sale = "
+									+search+" or product_photo_src = '"
+									+search+"'");
+			for (Product product : list) {
+				List<Store> stores = Store.dao.find("select * from store where id = "+product.getId()+"");
+				Store store = stores.get(0);
+				SearchProduct sp = new SearchProduct(
+						store.getId(),store.getStorePhotoSrc(),
+						store.getName(),store.getScore(),
+						store.getSale(),store.getAllowDelivery(),
+						store.getDeliveryCost(),product.getName(),
+						product.getIntro(),product.getPrice());
+				Gson gson = new Gson();
+				String str = gson.toJson(sp);
+				search_json += str + ",";
+			}
+			search_json = search_json.substring(0,search_json.lastIndexOf(","));
+			search_json += "]";
+			renderText(search_json);
+		}else {
+			System.out.println("现在还没有搜索商品的用户哦");
+		}
+    }
     
     /**
      * 日期转换

@@ -58,7 +58,7 @@ Table: product
  id                | INT(10)      | NO   | PRI |         |         
  shop_id           | INT(10)      | YES  |     |         |         
  name              | VARCHAR(255) | YES  |     |         |         
- price             | VARCHAR(255) | YES  |     |         |         
+ price             | DOUBLE(255)  | YES  |     | 0       |         
  standard          | VARCHAR(255) | YES  |     | N/A     |         
  intro             | VARCHAR(255) | YES  |     |         |         
  sale              | INT(10)      | YES  |     | 0       |         
@@ -98,6 +98,8 @@ Table: store
  sale            | INT(10)      | YES  |     | 0       |         
  score           | DOUBLE(22)   | YES  |     | 5       |         
  store_photo_src | VARCHAR(255) | YES  |     | N/A     |         
+ allow_delivery  | DOUBLE(22)   | YES  |     | 0       |         
+ delivery_cost   | DOUBLE(22)   | YES  |     |         |         
 -----------------+--------------+------+-----+---------+---------
 
 Table: user
