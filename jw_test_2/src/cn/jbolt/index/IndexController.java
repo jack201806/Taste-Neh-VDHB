@@ -450,6 +450,28 @@ public class IndexController extends Controller {
     }
     
     /**
+     * 
+     */
+    public void android_product_hot() throws Exception{
+    	init();
+    	renderText("热门商品界面");
+    	List<Product> products = Product.dao.find("select * from product limit 10 order by sale");
+		String products_info = "";
+		for (Product product : products) {
+			List<Store> stores = Store.dao.find("select * from store where id = '"+product.getShopId()+"'");
+			String store_info = stores.get(0).getName();
+			//	用Gson生成json串
+			Gson gson = new Gson();
+			String json_0 = gson.toJson(product);
+			System.out.println(json_0);
+			String json = gson.toJson(CPI.getAttrs(product));
+			System.out.println(json);
+			products_info += json + "*" + store_info + "\n";
+		}
+		renderText(products_info);
+    }
+    
+    /**
      * 向买家版用户端推送商品信息（搜索）
      */
     public void android_product_search() throws Exception{
