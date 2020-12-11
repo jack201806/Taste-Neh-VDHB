@@ -454,6 +454,7 @@ public class IndexController extends Controller {
      */
     public void android_product_search() throws Exception{
     	init();
+    	renderText("商家搜索界面");
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
 		BufferedReader reader_6 = new BufferedReader(
@@ -461,16 +462,17 @@ public class IndexController extends Controller {
 		String search = reader_6.readLine();
 		String search_json = "[";
 		if (search!=null) {
+			System.out.println(search);
 			List<Product> list 
-				= Product.dao.find("select * from product where id = "
-									+search+" or shop_id = "
-									+search+" or name = '"
-									+search+"' or price = "
-									+search+" or standard = '"
-									+search+"' or intro = '"
-									+search+"' or sale = "
-									+search+" or product_photo_src = '"
-									+search+"'");
+				= Product.dao.find("select * from product where id like '%"
+									+search+"%' or shop_id like '%"
+									+search+"%' or name like '%"
+									+search+"%' or price like '%"
+									+search+"%' or standard like '%"
+									+search+"%' or intro like '%"
+									+search+"%' or sale like '%"
+									+search+"%' or product_photo_src like '%"
+									+search+"%' ");
 			for (Product product : list) {
 				List<Store> stores = Store.dao.find("select * from store where id = "+product.getId()+"");
 				Store store = stores.get(0);
