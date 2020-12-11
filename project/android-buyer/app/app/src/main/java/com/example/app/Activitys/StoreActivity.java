@@ -63,6 +63,7 @@ public class StoreActivity extends AppCompatActivity {
                 case 1://表示接收服务端的字符串
                     String storeInfo = (String) msg.obj;
                     store=gson.fromJson(storeInfo, Store.class);
+
                     break;
             }
         }

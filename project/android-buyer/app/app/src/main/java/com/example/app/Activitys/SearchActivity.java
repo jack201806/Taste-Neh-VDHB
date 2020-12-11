@@ -15,9 +15,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.app.Bean.Store;
+import com.example.app.Bean.SearchProduct;
 import com.example.app.MyActivityManager;
 import com.example.app.R;
+import com.example.app.orderAdapter.SearchProductAdapter;
 import com.example.app.refresh.StoreAdapter;
 import com.example.app.utils.ConfigUtil;
 import com.google.gson.Gson;
@@ -45,9 +46,9 @@ public class SearchActivity extends AppCompatActivity {
     private TextView searchInfo;
     private ListView lvContent;
     private SmartRefreshLayout srl;
-    private List<Store> stores;
-    private List<Store> storesInit = new ArrayList<>();
-    private StoreAdapter adapter;
+    private List<SearchProduct> stores;
+    private List<SearchProduct> storesInit = new ArrayList<>();
+    private SearchProductAdapter adapter;
     //搜索
     private SearchView searchView;
     //定义Gson对象属性
@@ -55,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
     //刷新次数
     private int refreshCount = 0;
     private String str;
+    private String searchText;
 
     private Handler handler = new Handler() {
         @Override
@@ -62,10 +64,10 @@ public class SearchActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1://表示接收服务端的字符串
                     str = msg.obj.toString();
-                    Log.e("lll", str);
-                    if (!str.equals("商家浏览界面")) {
+                    Log.e("ykd", str);
+                    if (!str.equals("商家搜索界面")) {
                         //1. 得到集合的类型
-                        Type type = new TypeToken<List<Store>>() {
+                        Type type = new TypeToken<List<SearchProduct>>() {
                         }.getType();
                         //初始化数据
                         stores = gson.fromJson(str, type);
@@ -74,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
                             storesInit.add(stores.get(i));
                         }
                         if (refreshCount == 0) {
-                            adapter = new StoreAdapter(getApplicationContext(), R.layout.store_item, storesInit);
+                            adapter = new SearchProductAdapter( R.layout.search_product,storesInit,getApplicationContext());
                             lvContent.setAdapter(adapter);
                         } else {
                             adapter.notifyDataSetChanged();
@@ -83,16 +85,17 @@ public class SearchActivity extends AppCompatActivity {
                         lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Store store = storesInit.get(position);
+                                SearchProduct searchProduct = storesInit.get(position);
                                 Log.e("aaa",storesInit.get(position).toString());
                                 Intent intent = new Intent(SearchActivity.this, StoreActivity.class);
-                                intent.putExtra("id", String.valueOf(store.getId()));
+                                intent.putExtra("storeId", String.valueOf(searchProduct.getStoreId()));
                                 startActivity(intent);
                                 //跳转到详情页面
                             }
                         });
                     }else{
-                        Toast.makeText(getApplicationContext(),"没有找到与搜索内容相关的内容",Toast.LENGTH_SHORT).show();
+//                        searchNullText.setVisibility(View.VISIBLE);
+//                        srl.setVisibility(View.INVISIBLE);
                     }
                     break;
             }
@@ -104,16 +107,17 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
-        android_store_init();
-
         searchView = findViewById(R.id.searchView);
+//        searchNullText = findViewById(R.id.search_null_text);
+//        searchNullText.setVisibility(View.INVISIBLE);
         //搜索框不自动缩小为一个搜索图标，而是match_parent
         searchView.setIconifiedByDefault(false);
         //显示搜索按钮
         searchView.setSubmitButtonEnabled(true);
         //默认提示文本
-        searchView.setQueryHint("与 " + getIntent().getStringExtra("searchInfo") + " 相关的内容：");
-
+        searchText = getIntent().getStringExtra("searchInfo");
+        searchView.setQueryHint("与 " + searchText + " 相关的内容：");
+        android_search_product();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             //单击搜索按钮的监听
             @Override
@@ -177,7 +181,7 @@ public class SearchActivity extends AppCompatActivity {
          */
         private void loadMoreData() {
             refreshCount += 1;
-            android_store_init();
+            android_search_product();
         }
 
         /**
@@ -186,20 +190,21 @@ public class SearchActivity extends AppCompatActivity {
         private void refreshData() {
             storesInit.clear();
             refreshCount = 0;
-            android_store_init();
+            android_search_product();
         }
 
-        private void android_store_init() {
+        private void android_search_product() {
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        URL url = new URL(ConfigUtil.SERVER_ADDR + "android_store_init");
+                        URL url = new URL(ConfigUtil.SERVER_ADDR + "android_product_search");
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setRequestMethod("POST");
                         //  获取网络输出流
                         OutputStream out = conn.getOutputStream();
-                        out.write(getIntent().getStringExtra("searchInfo").getBytes());
+                        Log.e("searchText",searchText);
+                        out.write(searchText.getBytes());
                         //必须要获取网络输入流，保证客户端和服务端建立连接
                         InputStream in = conn.getInputStream();
                         out.close();
@@ -231,5 +236,4 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }.start();
         }
-
 }

@@ -3,6 +3,7 @@ package com.example.app.Bean;
 import java.util.List;
 
 public class Order {
+    private String storeId;
     private String storeHeader;
     private String storeName;
     private String orderState;
@@ -11,6 +12,14 @@ public class Order {
     private String orderTime;
     private int orderNum;
     private double orderAmount;
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
+    }
 
     public String getStoreHeader() {
         return storeHeader;
@@ -79,7 +88,8 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" +
-                "storeHeader='" + storeHeader + '\'' +
+                "storeId='" + storeId + '\'' +
+                ", storeHeader='" + storeHeader + '\'' +
                 ", storeName='" + storeName + '\'' +
                 ", orderState='" + orderState + '\'' +
                 ", products=" + products +

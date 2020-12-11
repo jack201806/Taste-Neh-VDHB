@@ -2,7 +2,6 @@ package com.example.app.Bean;
 
 public class UserProduct {
     private String productId;
-    private String storeId;
     private String productImg;
     private String productName;
     private double productPrice;
@@ -15,14 +14,6 @@ public class UserProduct {
 
     public void setProductId(String productId) {
         this.productId = productId;
-    }
-
-    public String getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(String storeId) {
-        this.storeId = storeId;
     }
 
     public String getProductImg() {
@@ -69,7 +60,6 @@ public class UserProduct {
     public String toString() {
         return "UserProduct{" +
                 "productId='" + productId + '\'' +
-                ", storeId='" + storeId + '\'' +
                 ", productImg='" + productImg + '\'' +
                 ", productName='" + productName + '\'' +
                 ", productPrice=" + productPrice +

@@ -37,7 +37,7 @@ import com.example.app.R;
 public class MyFragment extends Fragment {
 
     private View root;
-
+    public  static String userInfo;
     //自定义toast样式
     private View my_toast;
     private Toast toast;
@@ -211,6 +211,7 @@ public class MyFragment extends Fragment {
             ifLogin=true;
             userName.setText(data.getStringExtra("userName"));
             userPhone.setText(data.getStringExtra("userPhone"));
+            userInfo = data.getStringExtra("userPhone");
             url="http://m.imeitou.com/uploads/allimg/2020100609/yjc23pars01.jpg";
             Glide.with(getContext()).load(url).circleCrop().into(userHead);
         }
