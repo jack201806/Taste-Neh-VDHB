@@ -84,7 +84,6 @@
 												<th>商品id</th>
 												<th>用户id</th>
 												<th>（订单）商品数量</th>
-												<th>订单金额</th>
 												<th>订单状态</th>
 												<th>订单时间</th>
 												<th>操作</th>
@@ -107,8 +106,7 @@
 													</td>
 													<td>${order.product_id }</td>
 													<td>${order.user_id }</td>
-													<td>${order.amount }</td>
-													<td>${order.total }</td>
+													<td>${order.product_num }</td>
 													<td>${order.status }</td>
 													<td>${order.time }</td>
 							

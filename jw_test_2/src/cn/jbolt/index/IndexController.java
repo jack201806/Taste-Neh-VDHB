@@ -415,7 +415,7 @@ public class IndexController extends Controller {
 				store_info += "]";
 				renderText(store_info);
 			}else {
-				System.out.println("店铺信息已发送");
+				System.out.println("店铺信息已发送完毕");
 			}
 		}else {
 			System.out.println("现在还没有查看店铺信息的用户哦");
@@ -492,20 +492,6 @@ public class IndexController extends Controller {
 		}else {
 			System.out.println("现在还没有搜索商品的用户哦");
 		}
-    }
-    
-    /**
-     * 日期转换
-     */
-    public static Date stringToDate(String time) {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");//日期格式
-        Date date = null;
-        try {
-            date = format.parse(time);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return date;
     }
     
     /**
@@ -589,19 +575,14 @@ public class IndexController extends Controller {
 			JSONObject object = new JSONObject(order_info);
 			int product_id = object.getInt("product_id");
 			int user_id = object.getInt("user_id");
-			int amount = object.getInt("amount");
-			double total = object.getDouble("total");
+			int product_num = object.getInt("product_num");
 			String status = object.getString("status");
-			Date time = stringToDate(object.getString("time"));
-			//	创建Json串
-			Gson gson = new Gson();
+//			Date time = stringToDate(object.getString("time"));
 			Orders order = new Orders();
 			order.setProductId(product_id);
 			order.setUserId(user_id);
-			order.setAmount(amount);
-			order.setTotal(total);
+			order.setProductNum(product_num);
 			order.setStatus(status);
-			order.setTime(time);
 			boolean b = order.save();
 			if (b) {
 				renderText(success);
@@ -613,7 +594,4 @@ public class IndexController extends Controller {
 		}
     }
 
-    /**
-     * 买家版
-     */
 }

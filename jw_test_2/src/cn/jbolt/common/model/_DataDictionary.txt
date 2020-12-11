@@ -39,17 +39,16 @@ Table: manager
 ---------------+--------------+------+-----+---------+---------
 
 Table: orders
-------------+---------------+------+-----+-------------------+---------
- Field      | Type          | Null | Key | Default           | Remarks 
-------------+---------------+------+-----+-------------------+---------
- id         | INT(10)       | NO   | PRI |                   |         
- product_id | INT(10)       | YES  |     |                   |         
- user_id    | INT(10)       | YES  |     |                   |         
- amount     | INT(10)       | YES  |     |                   |         
- total      | DOUBLE(22)    | YES  |     |                   |         
- status     | VARCHAR(255)  | YES  |     |                   |         
- time       | TIMESTAMP(19) | YES  |     | CURRENT_TIMESTAMP |         
-------------+---------------+------+-----+-------------------+---------
+-------------+---------------+------+-----+-------------------+---------
+ Field       | Type          | Null | Key | Default           | Remarks 
+-------------+---------------+------+-----+-------------------+---------
+ id          | INT(10)       | NO   | PRI |                   |         
+ product_id  | INT(10)       | YES  |     |                   |         
+ user_id     | INT(10)       | YES  |     |                   |         
+ product_num | INT(10)       | YES  |     |                   |         
+ status      | VARCHAR(255)  | YES  |     |                   |         
+ time        | TIMESTAMP(19) | YES  |     | CURRENT_TIMESTAMP |         
+-------------+---------------+------+-----+-------------------+---------
 
 Table: product
 -------------------+--------------+------+-----+---------+---------
@@ -99,7 +98,7 @@ Table: store
  score           | DOUBLE(22)   | YES  |     | 5       |         
  store_photo_src | VARCHAR(255) | YES  |     | N/A     |         
  allow_delivery  | DOUBLE(22)   | YES  |     | 0       |         
- delivery_cost   | DOUBLE(22)   | YES  |     |         |         
+ delivery_cost   | DOUBLE(22)   | YES  |     | 0       |         
 -----------------+--------------+------+-----+---------+---------
 
 Table: user

@@ -35,22 +35,13 @@ public abstract class BaseOrders<M extends BaseOrders<M>> extends JBoltBaseModel
 		return getInt("user_id");
 	}
 
-	public M setAmount(java.lang.Integer amount) {
-		set("amount", amount);
+	public M setProductNum(java.lang.Integer productNum) {
+		set("product_num", productNum);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getAmount() {
-		return getInt("amount");
-	}
-
-	public M setTotal(java.lang.Double total) {
-		set("total", total);
-		return (M)this;
-	}
-	
-	public java.lang.Double getTotal() {
-		return getDouble("total");
+	public java.lang.Integer getProductNum() {
+		return getInt("product_num");
 	}
 
 	public M setStatus(java.lang.String status) {
