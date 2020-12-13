@@ -1,6 +1,8 @@
 package com.example.app.Activitys;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app.Bean.SearchProduct;
@@ -103,10 +106,13 @@ public class SearchActivity extends AppCompatActivity {
 
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
+        //透明化通知栏（必须Android 5.0以上才可以！！！）
+        getWindow().setStatusBarColor(Color.rgb(253,170,28));
         searchView = findViewById(R.id.searchView);
 //        searchNullText = findViewById(R.id.search_null_text);
 //        searchNullText.setVisibility(View.INVISIBLE);
@@ -203,8 +209,10 @@ public class SearchActivity extends AppCompatActivity {
                         conn.setRequestMethod("POST");
                         //  获取网络输出流
                         OutputStream out = conn.getOutputStream();
-                        Log.e("searchText",searchText);
-                        out.write(searchText.getBytes());
+                        int code = conn.getResponseCode();
+                        Log.e("tomcatError",code+"");
+                        String data = "searchText="+searchText;
+                        out.write(data.getBytes());
                         //必须要获取网络输入流，保证客户端和服务端建立连接
                         InputStream in = conn.getInputStream();
                         out.close();

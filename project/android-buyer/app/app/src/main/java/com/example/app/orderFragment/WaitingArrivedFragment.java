@@ -125,7 +125,8 @@ public class WaitingArrivedFragment extends Fragment {
                     conn.setRequestMethod("POST");
                     //获取网络输出流
                     OutputStream out = conn.getOutputStream();
-                    out.write(MyFragment.userInfo.getBytes());
+                    String data = "userInfo="+MyFragment.userInfo.getBytes();
+                    out.write(data.getBytes());
                     //必须要获取网络输入流，保证客户端和服务端建立连接
                     InputStream in = conn.getInputStream();
                     out.close();

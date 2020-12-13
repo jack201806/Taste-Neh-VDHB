@@ -235,7 +235,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     OutputStream out = conn.getOutputStream();
                     //  获取待发送的字符串
                     Log.e("登录信息",json);
-                    out.write(json.getBytes());
+                    String data = "user="+json;
+                    out.write(data.getBytes());
                     //必须要获取网络输入流，保证客户端和服务端建立连接
                     InputStream in = conn.getInputStream();
                     out.close();

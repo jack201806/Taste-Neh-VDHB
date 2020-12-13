@@ -54,7 +54,7 @@ public class Fragment1 extends Fragment {
     //定义Gson对象属性
     private Gson gson = new Gson();
     //刷新次数
-    private int refreshCount = 0;
+    private int refreshCount = 1;
     private String str;
     private TextView textView;
     private Handler handler = new Handler() {
@@ -156,7 +156,8 @@ public class Fragment1 extends Fragment {
                     conn.setRequestMethod("POST");
                     //  获取网络输出流
                     OutputStream out = conn.getOutputStream();
-                    out.write((refreshCount + "").getBytes());
+                    String data = "position="+refreshCount;
+                    out.write(data.getBytes());
                     //必须要获取网络输入流，保证客户端和服务端建立连接
                     InputStream in = conn.getInputStream();
                     out.close();
