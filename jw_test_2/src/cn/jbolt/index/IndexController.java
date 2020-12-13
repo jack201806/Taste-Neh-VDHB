@@ -495,20 +495,22 @@ public class IndexController extends Controller {
 									+search+"%' or sale like '%"
 									+search+"%' or product_photo_src like '%"
 									+search+"%' ");
-			for (Product product : list) {
-				List<Store> stores = Store.dao.find("select * from store where id = "+product.getId()+"");
-				Store store = stores.get(0);
-				SearchProduct sp = new SearchProduct(
-						store.getId(),store.getStorePhotoSrc(),
-						store.getName(),store.getScore(),
-						store.getSale(),store.getAllowDelivery(),
-						store.getDeliveryCost(),product.getName(),
-						product.getIntro(),product.getPrice());
-				Gson gson = new Gson();
-				String str = gson.toJson(sp);
-				search_json += str + ",";
+			if (list.size()!=0) {
+				for (Product product : list) {
+					List<Store> stores = Store.dao.find("select * from store where id = "+product.getId()+"");
+					Store store = stores.get(0);
+					SearchProduct sp = new SearchProduct(
+							store.getId(),store.getStorePhotoSrc(),
+							store.getName(),store.getScore(),
+							store.getSale(),store.getAllowDelivery(),
+							store.getDeliveryCost(),product.getName(),
+							product.getIntro(),product.getPrice());
+					Gson gson = new Gson();
+					String str = gson.toJson(sp);
+					search_json += str + ",";
+				}
+				search_json = search_json.substring(0,search_json.lastIndexOf(","));
 			}
-			search_json = search_json.substring(0,search_json.lastIndexOf(","));
 			search_json += "]";
 			renderText(search_json);
 		}else {
