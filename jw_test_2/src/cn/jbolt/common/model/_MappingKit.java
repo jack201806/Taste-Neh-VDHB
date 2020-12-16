@@ -22,9 +22,11 @@ public class _MappingKit {
 		arp.addMapping("manager", "id", Manager.class);
 		arp.addMapping("orders", "id", Orders.class);
 		arp.addMapping("product", "id", Product.class);
+		arp.addMapping("product_type", "id", ProductType.class);
 		arp.addMapping("shopping_address", "id", ShoppingAddress.class);
 		arp.addMapping("shopping_cart", "id", ShoppingCart.class);
 		arp.addMapping("store", "id", Store.class);
+		arp.addMapping("store_position", "id", StorePosition.class);
 		arp.addMapping("user", "id", User.class);
 	}
 }

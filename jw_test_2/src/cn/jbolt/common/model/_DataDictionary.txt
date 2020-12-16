@@ -9,7 +9,6 @@ Table: comment
  Field         | Type          | Null | Key | Default           | Remarks 
 ---------------+---------------+------+-----+-------------------+---------
  id            | INT(10)       | NO   | PRI |                   |         
- user_id       | INT(10)       | YES  |     |                   |         
  order_id      | INT(10)       | YES  |     |                   |         
  content       | VARCHAR(255)  | YES  |     |                   |         
  time          | TIMESTAMP(19) | YES  |     | CURRENT_TIMESTAMP |         
@@ -51,18 +50,27 @@ Table: orders
 -------------+---------------+------+-----+-------------------+---------
 
 Table: product
--------------------+--------------+------+-----+---------+---------
- Field             | Type         | Null | Key | Default | Remarks 
--------------------+--------------+------+-----+---------+---------
- id                | INT(10)      | NO   | PRI |         |         
- shop_id           | INT(10)      | YES  |     |         |         
- name              | VARCHAR(255) | YES  |     |         |         
- price             | DOUBLE(255)  | YES  |     | 0       |         
- standard          | VARCHAR(255) | YES  |     | N/A     |         
- intro             | VARCHAR(255) | YES  |     |         |         
- sale              | INT(10)      | YES  |     | 0       |         
- product_photo_src | VARCHAR(255) | YES  |     | N/A     |         
--------------------+--------------+------+-----+---------+---------
+-------------------+---------------+------+-----+---------+---------
+ Field             | Type          | Null | Key | Default | Remarks 
+-------------------+---------------+------+-----+---------+---------
+ id                | INT(10)       | NO   | PRI |         |         
+ shop_id           | INT(10)       | YES  |     |         |         
+ name              | VARCHAR(255)  | YES  |     |         |         
+ product_type      | INT(10)       | YES  |     |         |         
+ price             | DOUBLE(255,2) | YES  |     | 0.00    |         
+ stars             | FLOAT(255,2)  | YES  |     | 5.00    |         
+ sale              | INT(10)       | YES  |     | 0       |         
+ product_photo_src | VARCHAR(255)  | YES  |     | N/A     |         
+ intro             | VARCHAR(255)  | YES  |     | 暂无简介    |         
+-------------------+---------------+------+-----+---------+---------
+
+Table: product_type
+-------+--------------+------+-----+---------+---------
+ Field | Type         | Null | Key | Default | Remarks 
+-------+--------------+------+-----+---------+---------
+ id    | INT(10)      | NO   | PRI |         |         
+ name  | VARCHAR(255) | YES  |     |         |         
+-------+--------------+------+-----+---------+---------
 
 Table: shopping_address
 ------------+--------------+------+-----+---------+---------
@@ -87,19 +95,30 @@ Table: shopping_cart
 ------------+---------------+------+-----+-------------------+---------
 
 Table: store
------------------+--------------+------+-----+---------+---------
- Field           | Type         | Null | Key | Default | Remarks 
------------------+--------------+------+-----+---------+---------
- id              | INT(10)      | NO   | PRI |         |         
- name            | VARCHAR(255) | YES  |     |         |         
- seller_id       | INT(10)      | YES  |     |         |         
- location        | VARCHAR(255) | YES  |     |         |         
- sale            | INT(10)      | YES  |     | 0       |         
- score           | DOUBLE(22)   | YES  |     | 5       |         
- store_photo_src | VARCHAR(255) | YES  |     | N/A     |         
- allow_delivery  | DOUBLE(22)   | YES  |     | 0       |         
- delivery_cost   | DOUBLE(22)   | YES  |     | 0       |         
------------------+--------------+------+-----+---------+---------
+---------------------+--------------+------+-----+---------+---------
+ Field               | Type         | Null | Key | Default | Remarks 
+---------------------+--------------+------+-----+---------+---------
+ id                  | INT(10)      | NO   | PRI |         |         
+ name                | VARCHAR(255) | YES  |     |         |         
+ seller_id           | INT(10)      | YES  |     |         |         
+ location            | INT(10)      | YES  |     | 1       |         
+ sale                | INT(10)      | YES  |     | 0       |         
+ score               | DOUBLE(22)   | YES  |     | 5       |         
+ store_photo_src     | VARCHAR(255) | YES  |     | N/A     |         
+ allow_delivery      | DOUBLE(22)   | YES  |     | 0       |         
+ delivery_cost       | DOUBLE(22)   | YES  |     | 0       |         
+ start_delivery_time | VARCHAR(255) | YES  |     |         |         
+ end_delivery_time   | VARCHAR(255) | YES  |     |         |         
+---------------------+--------------+------+-----+---------+---------
+
+Table: store_position
+--------+--------------+------+-----+---------+---------
+ Field  | Type         | Null | Key | Default | Remarks 
+--------+--------------+------+-----+---------+---------
+ id     | INT(10)      | NO   | PRI |         |         
+ name   | VARCHAR(255) | YES  |     | default |         
+ in_out | INT(10)      | YES  |     | 1       |         
+--------+--------------+------+-----+---------+---------
 
 Table: user
 ---------------+--------------+------+-----+---------+---------

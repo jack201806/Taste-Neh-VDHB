@@ -10,11 +10,10 @@ public class SearchProduct {
     private double allowDelivery;
     private double deliveryCast;
     private String productName;
-    private String productIntro;
     private double productPrice;
     
 	public SearchProduct(int storeId, String storePhoto, String storeName, double storeScore, int storeSale,
-			double allowDelivery, double deliveryCast, String productName, String productIntro, double productPrice) {
+			double allowDelivery, double deliveryCast, String productName, double productPrice) {
 		super();
 		this.storeId = storeId;
 		this.storePhoto = storePhoto;
@@ -24,7 +23,6 @@ public class SearchProduct {
 		this.allowDelivery = allowDelivery;
 		this.deliveryCast = deliveryCast;
 		this.productName = productName;
-		this.productIntro = productIntro;
 		this.productPrice = productPrice;
 	}
 
@@ -95,15 +93,6 @@ public class SearchProduct {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-
-	public String getProductIntro() {
-		return productIntro;
-	}
-
-	public void setProductIntro(String productIntro) {
-		this.productIntro = productIntro;
-	}
-
 	public double getProductPrice() {
 		return productPrice;
 	}
@@ -116,8 +105,7 @@ public class SearchProduct {
 	public String toString() {
 		return "SearchProduct [storeId=" + storeId + ", storePhoto=" + storePhoto + ", storeName=" + storeName
 				+ ", storeScore=" + storeScore + ", storeSale=" + storeSale + ", allowDelivery=" + allowDelivery
-				+ ", deliveryCast=" + deliveryCast + ", productName=" + productName + ", productIntro=" + productIntro
-				+ ", productPrice=" + productPrice + "]";
+				+ ", deliveryCast=" + deliveryCast + ", productName=" + productName + ", productPrice=" + productPrice + "]";
 	}
 
 }

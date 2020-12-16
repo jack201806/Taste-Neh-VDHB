@@ -84,8 +84,8 @@
 												<th>店铺id</th>
 												<th>商品名称</th>
 												<th>商品价格</th>
-												<th>商品规格</th>
-												<th class="hidden-480">商品介绍</th>
+												<!-- <th>商品规格</th>
+												<th class="hidden-480">商品介绍</th> -->
 												<th>商品照片</th>
 												<th>操作</th>
 											</tr>
@@ -108,8 +108,8 @@
 													<td>${product.shop_id }</td>
 													<td class="hidden-480">${product.name }</td>
 													<td>${product.price }</td>
-													<td>${product.standard }</td>
-													<td>${product.intro }</td>
+													<%-- <td>${product.standard }</td>
+													<td>${product.intro }</td> --%>
 													<td>${product.product_photo_src }</td>
 							
 													<td>

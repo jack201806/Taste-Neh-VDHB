@@ -1,13 +1,11 @@
 package cn.jbolt.index;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +22,17 @@ import com.google.gson.Gson;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.CPI;
 
+import org.json.JSONArray;
 import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.CommentPhotos;
 import cn.jbolt.common.model.Manager;
 import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
+import cn.jbolt.common.model.ProductType;
 import cn.jbolt.common.model.Store;
+import cn.jbolt.common.model.StorePosition;
 import cn.jbolt.common.model.User;
+import cn.jbolt.not_models.HotProduct;
 import cn.jbolt.not_models.SearchProduct;
 
 /**
@@ -199,6 +201,7 @@ public class IndexController extends Controller {
 		String success = "登录成功";
 		String fail = "登录失败，用户名或密码错误";
 		String json_login = reader_1.readLine();
+//		String json_login = request.getParameter("user");
 		System.out.println(json_login);
 		if (json_login!=null) {
 			//	根据指定的json串创建JSONObject对象
@@ -407,8 +410,17 @@ public class IndexController extends Controller {
 				List<Store> stores = Store.dao.find("select * from store limit "+refresh*5+",5");
 				String store_info = "[";
 				for (Store store : stores) {
+					System.out.println("商店地址："+store.getLocation());
+					List<StorePosition> positions = StorePosition.dao.find("select * from store_position where id = '"+store.getLocation()+"' ");
+					String location = positions.get(0).getName();
+					cn.jbolt.not_models.Store store2 
+						= new cn.jbolt.not_models.Store(
+								store.getId(), store.getSellerId(), store.getScore(),store.getSale(),
+								store.getName(), store.getStorePhotoSrc(), location,
+								store.getAllowDelivery(), store.getDeliveryCost(),
+								store.getStartDeliveryTime(), store.getEndDeliveryTime());
 					Gson gson = new Gson();
-					String json = gson.toJson(CPI.getAttrs(store));
+					String json = gson.toJson(store2);
 					store_info += json + ",";
 				}
 				store_info = store_info.substring(0,store_info.lastIndexOf(","));
@@ -419,6 +431,53 @@ public class IndexController extends Controller {
 			}
 		}else {
 			System.out.println("现在还没有查看店铺信息的用户哦");
+		}
+    }
+    
+    /**
+     * 查看店铺详情界面
+     * 根据店铺id搜索店铺所有商品
+     */
+    public void android_product_shop() throws Exception{
+    	init();
+    	renderText("店铺及菜品浏览界面");
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_8 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String store_info = reader_8.readLine();
+		if (store_info!=null) {
+			System.out.println(store_info);
+			int store_id = Integer.parseInt(store_info);
+			JSONArray array = new JSONArray();
+			List<ProductType> types = ProductType.dao.find("select * from product_type");
+			for (ProductType type : types) {
+				List<Product> products = Product.dao.find("select * from product where shop_id = "+store_id+" and product_type = "+type.getId()+" ");
+				JSONObject object = new JSONObject();
+				object.put("productType", type.getName());
+				JSONArray array_2 = new JSONArray();
+				for (Product product : products) {
+					JSONObject jObject = null;
+					Gson gson2 = new Gson();
+					cn.jbolt.not_models.Product product_2 
+						= new cn.jbolt.not_models.Product(
+								product.getId(), product.getShopId(),
+								product.getName(), type.getName(),
+								product.getPrice(), product.getSale(),
+								product.getProductPhotoSrc(), product.getIntro());
+					String json = gson2.toJson(product_2);
+					jObject = new JSONObject(json);
+					System.out.println(json);
+					array_2.put(jObject);
+				}
+				object.put("content",array_2);
+				System.out.println(object.toString());
+				array.put(object);
+			}
+			System.out.println(array.toString());
+			renderText(array.toString());
+		}else {
+			System.out.println("现在还没有浏览店家详情的用户哦");
 		}
     }
     
@@ -450,24 +509,80 @@ public class IndexController extends Controller {
     }
     
     /**
-     * 
+     * 显示热门商品（stars前10的）
      */
     public void android_product_hot() throws Exception{
     	init();
     	renderText("热门商品界面");
-    	List<Product> products = Product.dao.find("select * from product limit 10 order by sale");
-		String products_info = "";
+    	List<Product> products = Product.dao.find("select * from product order by stars desc limit 10");
+		String products_info = "[";
 		for (Product product : products) {
 			List<Store> stores = Store.dao.find("select * from store where id = '"+product.getShopId()+"'");
 			String store_info = stores.get(0).getName();
+			HotProduct hp = new HotProduct(
+					product.getShopId(), product.getSale(),
+					product.getPrice(), product.getName(),
+					product.getId(), product.getStars(), product.getProductPhotoSrc(),
+					store_info);
 			//	用Gson生成json串
 			Gson gson = new Gson();
-			String json_0 = gson.toJson(product);
-			System.out.println(json_0);
-			String json = gson.toJson(CPI.getAttrs(product));
+			String json = gson.toJson(hp);
 			System.out.println(json);
-			products_info += json + "*" + store_info + "\n";
+			products_info += json + ",";
 		}
+		products_info = products_info.substring(0,products_info.lastIndexOf(","));
+		products_info += "]";
+		renderText(products_info);
+    }
+    
+    /**
+     * 对买家版首页其他4个Fragment显示的商品的显示操作
+     * @throws Exception
+     */
+    public void android_product_types() throws Exception{
+    	init();
+    	renderText("热门商品界面");
+    	//  获取网络输入流
+    	InputStream in = request.getInputStream();
+    	BufferedReader reader_7 = new BufferedReader(
+   				new InputStreamReader(in, "utf-8"));
+   		String usr_param = reader_7.readLine();
+   		String sql = "";
+   		switch(usr_param) {
+   			case "canteen":
+   				sql = "select * from product where shop_id in (select id from store where location in(select id from store_position where in_out=1))";
+   				break;
+   			case "guh_pehi":
+   				sql = "select * from product where shop_id in (select id from store where location in(select id from store_position where in_out=2))";
+   				break;
+   			case "odurem_tekin":
+   				sql = "select * from product where shop_id in (select id from store where location in(select id from store_position where in_out=4))";
+   				break;
+   			case "snacks":
+   				sql = "select * from product where shop_id in (select id from store where location in(select id from store_position where in_out=3))";
+   				break;
+   			default:
+   				break;
+   		}
+   		System.out.println(usr_param);
+		List<Product> products = Product.dao.find(sql);
+		String products_info = "[";
+		for (Product product : products) {
+			List<Store> stores = Store.dao.find("select * from store where id = '"+product.getShopId()+"'");
+			String store_info = stores.get(0).getName();
+			HotProduct hp = new HotProduct(
+					product.getShopId(), product.getSale(),
+					product.getPrice(), product.getName(),
+					product.getId(), product.getStars(), product.getProductPhotoSrc(),
+					store_info);
+			//	用Gson生成json串
+			Gson gson = new Gson();
+			String json = gson.toJson(hp);
+			System.out.println(json);
+			products_info += json + ",";
+		}
+		products_info = products_info.substring(0,products_info.lastIndexOf(","));
+		products_info += "]";
 		renderText(products_info);
     }
     
@@ -482,6 +597,8 @@ public class IndexController extends Controller {
 		BufferedReader reader_6 = new BufferedReader(
 				new InputStreamReader(in, "utf-8"));
 		String search = reader_6.readLine();
+    	request.setCharacterEncoding("utf-8");
+    	response.setContentType("text/html;charset=utf-8");
 		String search_json = "[";
 		if (search!=null) {
 			System.out.println(search);
@@ -490,8 +607,7 @@ public class IndexController extends Controller {
 									+search+"%' or shop_id like '%"
 									+search+"%' or name like '%"
 									+search+"%' or price like '%"
-									+search+"%' or standard like '%"
-									+search+"%' or intro like '%"
+									+search+"%' or stars like '%"
 									+search+"%' or sale like '%"
 									+search+"%' or product_photo_src like '%"
 									+search+"%' ");
@@ -504,7 +620,7 @@ public class IndexController extends Controller {
 							store.getName(),store.getScore(),
 							store.getSale(),store.getAllowDelivery(),
 							store.getDeliveryCost(),product.getName(),
-							product.getIntro(),product.getPrice());
+							product.getPrice());
 					Gson gson = new Gson();
 					String str = gson.toJson(sp);
 					search_json += str + ",";
@@ -512,7 +628,11 @@ public class IndexController extends Controller {
 				search_json = search_json.substring(0,search_json.lastIndexOf(","));
 			}
 			search_json += "]";
-			renderText(search_json);
+			if (search_json.equals("[]")) {
+				renderText("对不起，未找到相关结果");
+			}else {
+				renderText(search_json);
+			}
 		}else {
 			System.out.println("现在还没有搜索商品的用户哦");
 		}
@@ -578,8 +698,69 @@ public class IndexController extends Controller {
 			}
 			renderText(comments_info);
 		}else {
-			renderText("现在还没有查看商品评论的用户哦");
+			System.out.println("现在还没有查看商品评论的用户哦");
 		}
+    }
+    
+    /**
+     * 发送评论
+     */
+    public void android_send_comments() throws Exception{
+    	init();
+    	renderText("发送评论界面");
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_4 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String comment_info = reader_4.readLine();
+		if (comment_info!=null) {
+			System.out.println(comment_info);
+			JSONObject object = new JSONObject();
+			
+		}else {
+			System.out.println("现在还没有发送评论的用户哦");
+		}
+//		FileItemFactory factory = new DiskFileItemFactory();
+//		ServletFileUpload upload = new ServletFileUpload(factory);
+//		try {
+//			@SuppressWarnings("unchecked")
+//			List<FileItem> items = upload.parseRequest(request);
+//			System.out.println(items.size());
+//			for (FileItem item : items) {
+////				获取非文件属性
+//				if (item.isFormField()) {
+//					System.out.println(item.getFieldName()+":"+item.getString());
+//					if (item.getFieldName().equals("cake_name")) {
+//						int id = item.getString("utf-8");
+//					}
+//					if (item.getFieldName().equals("cake_type")) {
+//						String cake_type_info = item.getString();
+//						cake_type = Integer.parseInt(cake_type_info);
+//					}
+//					if (item.getFieldName().equals("cake_size")) {
+//						String cake_size_info = item.getString();
+//						cake_size = Double.parseDouble(cake_size_info);
+//					}
+//					if (item.getFieldName().equals("cake_price")) {
+//						String cake_price_info = item.getString();
+//						cake_price = Double.parseDouble(cake_price_info);
+//					}
+//				}else {
+//					String path = this.getServletContext().getRealPath("/cake_img");
+//					cake_photo_src = item.getName();
+//					System.out.println(cake_photo_src);
+//					if (cake_photo_src.contains(".")) {
+//						System.out.println(cake_photo_src);
+//						//	获取本地输出流
+//						item.write(new File(path+"/"+cake_photo_src));
+//					}else {
+//						cake_photo_src = "cake_online_default.png";
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
     }
     
     /**
@@ -595,24 +776,26 @@ public class IndexController extends Controller {
 		String success = "提交订单成功";
 		String fail = "下单失败，请重试";
 		if (order_info!=null) {
+			System.out.println(order_info);
 			//	根据指定的json串创建JSONObject对象
 			JSONObject object = new JSONObject(order_info);
-			int product_id = object.getInt("product_id");
-			int user_id = object.getInt("user_id");
-			int product_num = object.getInt("product_num");
-			String status = object.getString("status");
-//			Date time = stringToDate(object.getString("time"));
-			Orders order = new Orders();
-			order.setProductId(product_id);
-			order.setUserId(user_id);
-			order.setProductNum(product_num);
-			order.setStatus(status);
-			boolean b = order.save();
-			if (b) {
-				renderText(success);
-			}else {
-				renderText(fail);
+			int user_id = object.getInt("userInfo");
+			JSONArray array = object.getJSONArray("data");
+			for (int i = 0; i < array.length(); i++) {
+				JSONObject obj = array.getJSONObject(i);
+				int product_id = obj.getInt("productId");
+				int product_num = obj.getInt("productNum");
+				Orders order = new Orders();
+				order.setProductId(product_id);
+				order.setUserId(user_id);
+				order.setProductNum(product_num);
+				order.setStatus("待付款");
+				boolean b = order.save();
+				if (!b) {
+					renderText(fail);
+				}
 			}
+			renderText(success);
 		}else {
 			renderText("现在还没有下单的用户哦");
 		}

@@ -35,6 +35,15 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends JBoltBaseMod
 		return getStr("name");
 	}
 
+	public M setProductType(java.lang.Integer productType) {
+		set("product_type", productType);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getProductType() {
+		return getInt("product_type");
+	}
+
 	public M setPrice(java.lang.Double price) {
 		set("price", price);
 		return (M)this;
@@ -44,22 +53,13 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends JBoltBaseMod
 		return getDouble("price");
 	}
 
-	public M setStandard(java.lang.String standard) {
-		set("standard", standard);
+	public M setStars(java.lang.Float stars) {
+		set("stars", stars);
 		return (M)this;
 	}
 	
-	public java.lang.String getStandard() {
-		return getStr("standard");
-	}
-
-	public M setIntro(java.lang.String intro) {
-		set("intro", intro);
-		return (M)this;
-	}
-	
-	public java.lang.String getIntro() {
-		return getStr("intro");
+	public java.lang.Float getStars() {
+		return getFloat("stars");
 	}
 
 	public M setSale(java.lang.Integer sale) {
@@ -78,6 +78,15 @@ public abstract class BaseProduct<M extends BaseProduct<M>> extends JBoltBaseMod
 	
 	public java.lang.String getProductPhotoSrc() {
 		return getStr("product_photo_src");
+	}
+
+	public M setIntro(java.lang.String intro) {
+		set("intro", intro);
+		return (M)this;
+	}
+	
+	public java.lang.String getIntro() {
+		return getStr("intro");
 	}
 
 }

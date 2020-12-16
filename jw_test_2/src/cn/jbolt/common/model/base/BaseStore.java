@@ -35,13 +35,13 @@ public abstract class BaseStore<M extends BaseStore<M>> extends JBoltBaseModel<M
 		return getInt("seller_id");
 	}
 
-	public M setLocation(java.lang.String location) {
+	public M setLocation(java.lang.Integer location) {
 		set("location", location);
 		return (M)this;
 	}
 	
-	public java.lang.String getLocation() {
-		return getStr("location");
+	public java.lang.Integer getLocation() {
+		return getInt("location");
 	}
 
 	public M setSale(java.lang.Integer sale) {
@@ -87,6 +87,24 @@ public abstract class BaseStore<M extends BaseStore<M>> extends JBoltBaseModel<M
 	
 	public java.lang.Double getDeliveryCost() {
 		return getDouble("delivery_cost");
+	}
+
+	public M setStartDeliveryTime(java.lang.String startDeliveryTime) {
+		set("start_delivery_time", startDeliveryTime);
+		return (M)this;
+	}
+	
+	public java.lang.String getStartDeliveryTime() {
+		return getStr("start_delivery_time");
+	}
+
+	public M setEndDeliveryTime(java.lang.String endDeliveryTime) {
+		set("end_delivery_time", endDeliveryTime);
+		return (M)this;
+	}
+	
+	public java.lang.String getEndDeliveryTime() {
+		return getStr("end_delivery_time");
 	}
 
 }

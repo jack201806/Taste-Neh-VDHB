@@ -22,11 +22,14 @@ import com.jfinal.render.ViewType;
 import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.CommentPhotos;
 import cn.jbolt.common.model.Manager;
+import cn.jbolt.common.model.Order;
 import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
+import cn.jbolt.common.model.ProductType;
 import cn.jbolt.common.model.ShoppingAddress;
 import cn.jbolt.common.model.ShoppingCart;
 import cn.jbolt.common.model.Store;
+import cn.jbolt.common.model.StorePosition;
 import cn.jbolt.common.model.User;
 import cn.jbolt.index.IndexController;
 public class MainConfig extends JFinalConfig {
@@ -185,9 +188,11 @@ public class MainConfig extends JFinalConfig {
 		arp.addMapping("manager", "id", Manager.class);
 		arp.addMapping("orders", "id", Orders.class);
 		arp.addMapping("product", "id", Product.class);
+		arp.addMapping("product_type", "id", ProductType.class);
 		arp.addMapping("shopping_address", "id", ShoppingAddress.class);
 		arp.addMapping("shopping_cart", "id", ShoppingCart.class);
 		arp.addMapping("store", "id", Store.class);
+		arp.addMapping("store_position", "id", StorePosition.class);
 		arp.addMapping("user", "id", User.class);
 	}
 	/**

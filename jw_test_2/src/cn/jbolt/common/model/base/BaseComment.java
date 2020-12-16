@@ -17,15 +17,6 @@ public abstract class BaseComment<M extends BaseComment<M>> extends JBoltBaseMod
 		return getInt("id");
 	}
 
-	public M setUserId(java.lang.Integer userId) {
-		set("user_id", userId);
-		return (M)this;
-	}
-	
-	public java.lang.Integer getUserId() {
-		return getInt("user_id");
-	}
-
 	public M setOrderId(java.lang.Integer orderId) {
 		set("order_id", orderId);
 		return (M)this;
