@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +29,7 @@ import org.json.JSONArray;
 import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.CommentPhotos;
 import cn.jbolt.common.model.Manager;
+import cn.jbolt.common.model.OrderId;
 import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
 import cn.jbolt.common.model.ProductType;
@@ -34,6 +38,7 @@ import cn.jbolt.common.model.StorePosition;
 import cn.jbolt.common.model.User;
 import cn.jbolt.not_models.HotProduct;
 import cn.jbolt.not_models.SearchProduct;
+import cn.jbolt.not_models.UserProduct;
 
 /**
  * IndexController 指向系统访问首页
@@ -641,37 +646,105 @@ public class IndexController extends Controller {
     /**
      * 向买家版用户端推送订单信息
      */
-    public void android_order_init() throws Exception{
+    public void android_init_orders() throws Exception{
     	init();
+    	renderText("用户订单查询界面");
 		//	获取网络输入流
 		InputStream in = request.getInputStream();
 		BufferedReader reader_3 = new BufferedReader(
 				new InputStreamReader(in, "utf-8"));
 		String user_info = reader_3.readLine();
 		if (user_info!=null) {
+			System.out.println(user_info);
 			JSONObject object = new JSONObject(user_info);
 			int user_id = object.getInt("id");
-	    	List<Orders> orders = Orders.dao.find("select * from orders where user_id = '"+user_id+"'");
-	    	String orders_info = "";
-	    	for (Orders order : orders) {
-				List<Product> products = Product.dao.find("select * from product where id = '"+order.getProductId()+"'");
-				Product product = products.get(0);
-				List<Store> stores = Store.dao.find("select * from store where id = '"+product.getShopId()+"'");
-				Store store = stores.get(0);
-				Gson gson = new Gson();
-				String json = gson.toJson(CPI.getAttrs(order));
-				String json_2 = gson.toJson(CPI.getAttrs(product));
-				String json_3 = gson.toJson(CPI.getAttrs(store));
-				orders_info += json + "*" + json_2 + "*" + json_3 + "\n";
-	    	}
-	    	renderText(orders_info);
+			String status = object.getString("status");
+			
+			String sql_2 = "select * from order_id where status = '"+status+"' ";
+			List<OrderId> oids = OrderId.dao.find(sql_2);
+			System.out.println(oids.size());
+	    	String orders_info = "[";
+	    	if (oids.size()>0) {
+	    		for (OrderId oid : oids) {
+					String sql = "select * from orders where user_id = '"+user_id+"' and order_id = '"+oid.getId()+"' ";
+					List<Orders> orders = Orders.dao.find(sql);
+					List<UserProduct> uprs = new ArrayList<UserProduct>();
+					Store store = null;
+			    	Date order_time = oid.getTime();
+			    	/**
+			    	 * 不是每个订单，是订单下的每个商品
+			    	 */
+			    	for (Orders order : orders) {
+						Product product = Product.dao.findFirst("select * from product where id = '"+order.getProductId()+"'");
+			    		store = Store.dao.findFirst("select * from store where id = '"+product.getShopId()+"' ");
+						UserProduct upr = new UserProduct(
+								product.getId(), product.getShopId(),
+								product.getProductPhotoSrc(),
+								product.getName(), product.getPrice(),
+								product.getIntro(), order.getProductNum());
+						uprs.add(upr);
+			    	}
+			    	String od_saekan = daToStr(order_time);
+			    	cn.jbolt.not_models.Orders ods 
+			    		= new cn.jbolt.not_models.Orders(store.getId(),
+			    				store.getStorePhotoSrc(),store.getName(),
+			    				oid.getStatus(),uprs,oid.getInfo(),
+			    				od_saekan);
+			    	Gson gson = new Gson();
+			    	orders_info += gson.toJson(ods)+",";
+				}
+				orders_info = orders_info.substring(0,orders_info.lastIndexOf(","));
+				orders_info += "]";
+		    	System.out.println(orders_info);
+		    	renderText(orders_info);
+			}else {
+				renderText("现在还没有"+status+"的订单哦");
+			}
 		}else {
 			renderText("现在还没有查询订单的用户哦");
 		}
-    	
     }
     
+    public String daToStr(Date order_time) {
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	String d_str = formatter.format(order_time);
+    	return d_str;
+	}
+    
     /**
+     * 对已有订单付款，并把订单状态改为“已付款”(仅限买家版)
+     * @throws Exception
+     */
+    public void android_init_change_orders_status() throws Exception{
+    	init();
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_4 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String user_order_info = reader_4.readLine();
+		if (user_order_info!=null) {
+			System.out.println(user_order_info);
+			JSONObject object = new JSONObject(user_order_info);
+			String order_id = object.getString("orderId");
+			String status = object.getString("status");
+			String sql = "select * from order_id where info = '"+order_id+"' ";
+			List<OrderId> oids = OrderId.dao.find(sql);
+			if (oids.size()>0) {
+				OrderId oid = oids.get(0);
+				oid.setStatus(status);
+				boolean b = oid.update();
+				if (b) {
+					renderText("付款成功");
+				}
+			}else {
+				renderText("操作失败，请重试");
+			}
+		}else {
+			System.out.println("现在还没有对订单付款的用户哦");
+		}
+    }
+    
+	/**
      * 向买家版用户推送每个商品的评论信息
      */
     public void android_comment_init() throws Exception{
@@ -720,47 +793,6 @@ public class IndexController extends Controller {
 		}else {
 			System.out.println("现在还没有发送评论的用户哦");
 		}
-//		FileItemFactory factory = new DiskFileItemFactory();
-//		ServletFileUpload upload = new ServletFileUpload(factory);
-//		try {
-//			@SuppressWarnings("unchecked")
-//			List<FileItem> items = upload.parseRequest(request);
-//			System.out.println(items.size());
-//			for (FileItem item : items) {
-////				获取非文件属性
-//				if (item.isFormField()) {
-//					System.out.println(item.getFieldName()+":"+item.getString());
-//					if (item.getFieldName().equals("cake_name")) {
-//						int id = item.getString("utf-8");
-//					}
-//					if (item.getFieldName().equals("cake_type")) {
-//						String cake_type_info = item.getString();
-//						cake_type = Integer.parseInt(cake_type_info);
-//					}
-//					if (item.getFieldName().equals("cake_size")) {
-//						String cake_size_info = item.getString();
-//						cake_size = Double.parseDouble(cake_size_info);
-//					}
-//					if (item.getFieldName().equals("cake_price")) {
-//						String cake_price_info = item.getString();
-//						cake_price = Double.parseDouble(cake_price_info);
-//					}
-//				}else {
-//					String path = this.getServletContext().getRealPath("/cake_img");
-//					cake_photo_src = item.getName();
-//					System.out.println(cake_photo_src);
-//					if (cake_photo_src.contains(".")) {
-//						System.out.println(cake_photo_src);
-//						//	获取本地输出流
-//						item.write(new File(path+"/"+cake_photo_src));
-//					}else {
-//						cake_photo_src = "cake_online_default.png";
-//					}
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
     }
     
     /**
@@ -780,6 +812,8 @@ public class IndexController extends Controller {
 			//	根据指定的json串创建JSONObject对象
 			JSONObject object = new JSONObject(order_info);
 			int user_id = object.getInt("userInfo");
+			String order_id = object.getString("orderId");
+			List<Orders> orders = new ArrayList<>();
 			JSONArray array = object.getJSONArray("data");
 			for (int i = 0; i < array.length(); i++) {
 				JSONObject obj = array.getJSONObject(i);
@@ -789,13 +823,22 @@ public class IndexController extends Controller {
 				order.setProductId(product_id);
 				order.setUserId(user_id);
 				order.setProductNum(product_num);
-				order.setStatus("待付款");
-				boolean b = order.save();
-				if (!b) {
-					renderText(fail);
-				}
+				orders.add(order);
 			}
-			renderText(success);
+			OrderId oid = new OrderId();
+			oid.setInfo(order_id);
+			oid.setStatus("待付款");
+			boolean b2 = oid.save();
+			if (b2) {
+				for (Orders order : orders) {
+					order.setOrderId(oid.getId());
+					boolean b3 = order.save();
+					if (!b3) {
+						renderText(fail);
+					}
+				}
+				renderText(success);
+			}
 		}else {
 			renderText("现在还没有下单的用户哦");
 		}

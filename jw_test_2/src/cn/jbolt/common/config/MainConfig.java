@@ -23,6 +23,7 @@ import cn.jbolt.common.model.Comment;
 import cn.jbolt.common.model.CommentPhotos;
 import cn.jbolt.common.model.Manager;
 import cn.jbolt.common.model.Order;
+import cn.jbolt.common.model.OrderId;
 import cn.jbolt.common.model.Orders;
 import cn.jbolt.common.model.Product;
 import cn.jbolt.common.model.ProductType;
@@ -186,6 +187,7 @@ public class MainConfig extends JFinalConfig {
 		arp.addMapping("comment", "id", Comment.class);
 		arp.addMapping("comment_photos", "id", CommentPhotos.class);
 		arp.addMapping("manager", "id", Manager.class);
+		arp.addMapping("order_id", "id", OrderId.class);
 		arp.addMapping("orders", "id", Orders.class);
 		arp.addMapping("product", "id", Product.class);
 		arp.addMapping("product_type", "id", ProductType.class);

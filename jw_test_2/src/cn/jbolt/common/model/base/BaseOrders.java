@@ -17,6 +17,15 @@ public abstract class BaseOrders<M extends BaseOrders<M>> extends JBoltBaseModel
 		return getInt("id");
 	}
 
+	public M setOrderId(java.lang.Integer orderId) {
+		set("order_id", orderId);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getOrderId() {
+		return getInt("order_id");
+	}
+
 	public M setProductId(java.lang.Integer productId) {
 		set("product_id", productId);
 		return (M)this;
@@ -42,24 +51,6 @@ public abstract class BaseOrders<M extends BaseOrders<M>> extends JBoltBaseModel
 	
 	public java.lang.Integer getProductNum() {
 		return getInt("product_num");
-	}
-
-	public M setStatus(java.lang.String status) {
-		set("status", status);
-		return (M)this;
-	}
-	
-	public java.lang.String getStatus() {
-		return getStr("status");
-	}
-
-	public M setTime(java.util.Date time) {
-		set("time", time);
-		return (M)this;
-	}
-	
-	public java.util.Date getTime() {
-		return get("time");
 	}
 
 }
