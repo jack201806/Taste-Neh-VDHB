@@ -705,6 +705,59 @@ public class IndexController extends Controller {
 		}
     }
     
+    /**
+     * 显示商品简介
+     * @throws Exception
+     */
+    public void android_product_desc() throws Exception{
+    	init();
+    	renderText("商品信息浏览界面");
+    	//  获取网络输入流
+    	InputStream in = request.getInputStream();
+    	BufferedReader reader_3 = new BufferedReader(
+   				new InputStreamReader(in, "utf-8"));
+   		String product_info = reader_3.readLine();
+   		if (product_info!=null) {
+			System.out.println(product_info);
+			int id = Integer.parseInt(product_info);
+			Store store = Store.dao.findFirst("select * from store where id = '"+id+"' ");
+			JSONArray array = new JSONArray();
+			List<ProductType> types = ProductType.dao.find("select * from product_type");
+			for (ProductType type : types) {
+				List<Product> products = Product.dao.find("select * from product where shop_id = "+store.getId()+" and product_type = "+type.getId()+" ");
+				JSONObject object = new JSONObject();
+				object.put("productType", type.getName());
+				JSONArray array_2 = new JSONArray();
+				for (Product product : products) {
+					JSONObject jObject = null;
+					Gson gson2 = new Gson();
+					cn.jbolt.not_models.Product product_2 
+						= new cn.jbolt.not_models.Product(
+								product.getId(), product.getShopId(),
+								product.getName(), type.getName(),
+								product.getPrice(), product.getSale(),
+								product.getProductPhotoSrc(), product.getIntro());
+					String json = gson2.toJson(product_2);
+					jObject = new JSONObject(json);
+					System.out.println(json);
+					array_2.put(jObject);
+				}
+				object.put("content",array_2);
+				System.out.println(object.toString());
+				array.put(object);
+			}
+			System.out.println(array.toString());
+			renderText(array.toString());
+		}else {
+			System.out.println("现在还没有查看商品信息的用户哦");
+		}
+    }
+    
+    /**
+     * 日期转换
+     * @param order_time
+     * @returnr
+     */
     public String daToStr(Date order_time) {
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String d_str = formatter.format(order_time);

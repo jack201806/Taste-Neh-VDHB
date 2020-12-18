@@ -85,12 +85,11 @@
 														<span class="lbl"></span>
 													</label>
 												</th>
-												<th>订单id</th>
+												<th>订单条目id</th>
+												<th>所属订单编号</th>
 												<th>商品id</th>
 												<th>用户id</th>
 												<th>（订单）商品数量</th>
-												<th>订单状态</th>
-												<th>订单时间</th>
 												<th>操作</th>
 											</tr>
 										</thead>
@@ -109,10 +108,10 @@
 													<td>
 														<a href="#">${order.id }</a>
 													</td>
+													<td>${order.order_id }</td>
 													<td>${order.product_id }</td>
 													<td>${order.user_id }</td>
 													<td>${order.product_num }</td>
-													<td>${order.time }</td>
 							
 													<%-- <td class="hidden-480">
 														<span class="label label-sm label-inverse arrowed-in">${manager.user_icon_src }</span>
