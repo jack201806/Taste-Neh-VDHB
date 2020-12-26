@@ -269,7 +269,7 @@
 						</li>
 
 						<li class="dropdown-footer">
-							<a href="inbox.html">
+							<a href="#">
 								查看所有消息
 								<i class="ace-icon fa fa-arrow-right"></i>
 							</a>
@@ -298,7 +298,7 @@
 						</li>
 
 						<li>
-							<a href="profile.html">
+							<a href="#">
 								<i class="ace-icon fa fa-user"></i>
 								个人信息
 							</a>

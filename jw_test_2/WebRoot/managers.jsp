@@ -63,9 +63,6 @@
 				<!-- 设置页面 -->
 				<%@ include file="settings.jsp" %>
 				
-				<!-- 页首 -->
-				<%@ include file="page-header.jsp" %>
-				
 				<div class="row">
 					<div class="col-xs-12">
 						<!-- <div class="hr hr-18 dotted hr-double"></div> -->
@@ -119,9 +116,8 @@
 													<td>${manager.username }</td>
 													<td class="hidden-480">${manager.pwd }</td>
 													<td>${manager.phone }</td>
-							
 													<td class="hidden-480">
-														<span class="label label-sm label-inverse arrowed-in">${manager.user_icon_src }</span>
+														${manager.user_icon_src }
 													</td>
 							
 													<td>

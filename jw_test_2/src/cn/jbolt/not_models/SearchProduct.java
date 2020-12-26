@@ -11,9 +11,10 @@ public class SearchProduct {
     private double deliveryCast;
     private String productName;
     private double productPrice;
+    private String productImg;
     
 	public SearchProduct(int storeId, String storePhoto, String storeName, double storeScore, int storeSale,
-			double allowDelivery, double deliveryCast, String productName, double productPrice) {
+			double allowDelivery, double deliveryCast, String productName, double productPrice, String productImg) {
 		super();
 		this.storeId = storeId;
 		this.storePhoto = storePhoto;
@@ -24,6 +25,7 @@ public class SearchProduct {
 		this.deliveryCast = deliveryCast;
 		this.productName = productName;
 		this.productPrice = productPrice;
+		this.productImg = productImg;
 	}
 
 	public SearchProduct() {
@@ -101,11 +103,20 @@ public class SearchProduct {
 		this.productPrice = productPrice;
 	}
 
+	public String getProductImg() {
+		return productImg;
+	}
+
+	public void setProductImg(String productImg) {
+		this.productImg = productImg;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchProduct [storeId=" + storeId + ", storePhoto=" + storePhoto + ", storeName=" + storeName
 				+ ", storeScore=" + storeScore + ", storeSale=" + storeSale + ", allowDelivery=" + allowDelivery
-				+ ", deliveryCast=" + deliveryCast + ", productName=" + productName + ", productPrice=" + productPrice + "]";
+				+ ", deliveryCast=" + deliveryCast + ", productName=" + productName + ", productPrice=" + productPrice
+				+ ", productImg=" + productImg + "]";
 	}
 
 }

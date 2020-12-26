@@ -2,9 +2,11 @@ package cn.jbolt.index;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -206,7 +208,6 @@ public class IndexController extends Controller {
 		String success = "登录成功";
 		String fail = "登录失败，用户名或密码错误";
 		String json_login = reader_1.readLine();
-//		String json_login = request.getParameter("user");
 		System.out.println(json_login);
 		if (json_login!=null) {
 			//	根据指定的json串创建JSONObject对象
@@ -287,7 +288,7 @@ public class IndexController extends Controller {
     }
 
     /**
-     * 安卓端用户注册
+     * 安卓端用户修改信息
      */
     public void android_user_info() throws IOException{
     	init();
@@ -487,6 +488,34 @@ public class IndexController extends Controller {
     }
     
     /**
+     * 查询特定的店铺信息
+     * @throws Exception
+     */
+    public void android_shop_query() throws Exception{
+    	init();
+    	renderText("店铺信息查询界面");
+		//	获取网络输入流
+		InputStream in = request.getInputStream();
+		BufferedReader reader_8 = new BufferedReader(
+				new InputStreamReader(in, "utf-8"));
+		String store_info = reader_8.readLine();
+		int id = Integer.parseInt(store_info);
+    	Store store = Store.dao.findById(id);
+		System.out.println("商店地址："+store.getLocation());
+		List<StorePosition> positions = StorePosition.dao.find("select * from store_position where id = '"+store.getLocation()+"' ");
+		String location = positions.get(0).getName();
+		cn.jbolt.not_models.Store store2 
+			= new cn.jbolt.not_models.Store(
+					store.getId(), store.getSellerId(), store.getScore(),store.getSale(),
+					store.getName(), store.getStorePhotoSrc(), location,
+					store.getAllowDelivery(), store.getDeliveryCost(),
+					store.getStartDeliveryTime(), store.getEndDeliveryTime());
+		Gson gson = new Gson();
+		String json = gson.toJson(store2);
+		renderText(json);
+    }
+    
+    /**
      * 向买家版用户端推送商品信息
      * @throws UnsupportedEncodingException 
      */
@@ -616,16 +645,17 @@ public class IndexController extends Controller {
 									+search+"%' or sale like '%"
 									+search+"%' or product_photo_src like '%"
 									+search+"%' ");
+			System.out.println("搜索"+search+"的结果数："+list.size());
 			if (list.size()!=0) {
 				for (Product product : list) {
-					List<Store> stores = Store.dao.find("select * from store where id = "+product.getId()+"");
-					Store store = stores.get(0);
+					Store store = Store.dao.findFirst("select * from store where id = "+product.getShopId()+"");
+					System.out.println(store.toString());
 					SearchProduct sp = new SearchProduct(
 							store.getId(),store.getStorePhotoSrc(),
 							store.getName(),store.getScore(),
 							store.getSale(),store.getAllowDelivery(),
 							store.getDeliveryCost(),product.getName(),
-							product.getPrice());
+							product.getPrice(),product.getProductPhotoSrc());
 					Gson gson = new Gson();
 					String str = gson.toJson(sp);
 					search_json += str + ",";
@@ -841,11 +871,93 @@ public class IndexController extends Controller {
 		String comment_info = reader_4.readLine();
 		if (comment_info!=null) {
 			System.out.println(comment_info);
-			JSONObject object = new JSONObject();
-			
+			JSONObject object = new JSONObject(comment_info);
+			String order_id = object.getString("order_id");
+			OrderId oid = OrderId.dao.findFirst("select * from order_id where info = '"+order_id+"' ");
+			int id = oid.getId();
+			String content = object.getString("content");
+			float total_score = object.getFloat("total_score");
+			float package_score = object.getFloat("package_score");
+			float taste_score = object.getFloat("taste_score");
+			Comment comment = new Comment();
+			comment.setOrderId(id);
+			comment.setContent(content);
+			comment.setTotalScore(total_score);
+			comment.setPackageScore(package_score);
+			comment.setTasteScore(taste_score);
+			boolean b = comment.save();
+			if (b) {
+				oid.setStatus("已完成");
+				boolean b2 = oid.update();
+				if (b2) {
+					renderText("订单评论成功");
+				}
+			}
 		}else {
 			System.out.println("现在还没有发送评论的用户哦");
 		}
+    }
+    
+    /**
+     * 
+     */
+    public void android_comment_photos() throws Exception{
+    	init();
+    	//获得磁盘文件条目工厂。  
+    	DiskFileItemFactory factory = new DiskFileItemFactory();  
+    	//获取文件上传需要保存的路径，upload文件夹需存在。  
+    	String path = request.getSession().getServletContext().getRealPath("/imgs/comments");  
+    	//设置暂时存放文件的存储室，这个存储室可以和最终存储文件的文件夹不同。因为当文件很大的话会占用过多内存所以设置存储室。  
+    	factory.setRepository(new File(path));  
+    	//设置缓存的大小，当上传文件的容量超过缓存时，就放到暂时存储室。  
+    	factory.setSizeThreshold(1024*1024);  
+    	//上传处理工具类（高水平API上传处理？）  
+    	ServletFileUpload upload = new ServletFileUpload(factory);  
+
+    	try{  
+    	    //调用 parseRequest（request）方法  获得上传文件 FileItem 的集合list 可实现多文件上传。  
+    	    List<FileItem> list = (List<FileItem>)upload.parseRequest(request);  
+    	    for(FileItem item:list){  
+    	        //获取表单属性名字。  
+    	        String name = item.getFieldName();  
+    	        //如果获取的表单信息是普通的文本信息。即通过页面表单形式传递来的字符串。  
+    	        if(item.isFormField()){  
+    	            //获取用户具体输入的字符串，  
+    	            String value = item.getString();  
+    	            request.setAttribute(name, value);  
+    	        }  
+    	        //如果传入的是非简单字符串，而是图片，音频，视频等二进制文件。  
+    	        else{   
+    	            //获取路径名  
+    	            String value = item.getName();
+    	            System.out.println("获取文件路径:"+ value);  
+    	            //取到最后一个反斜杠。  
+    	            int start = value.lastIndexOf("\\");  
+    	            //截取上传文件的 字符串名字。+1是去掉反斜杠。  
+    	            String filename = value.substring(start+1);  
+    	            request.setAttribute(name, filename);  
+
+    	            /*第三方提供的方法直接写到文件中。 
+    	             * item.write(new File(path,filename));*/ 
+    	            //收到写到接收的文件中。  
+    	            OutputStream out = new FileOutputStream(new File(path,filename));  
+    	            System.out.println("保存文件路径:"+ new File(path,filename).getAbsolutePath()); 
+    	            InputStream in = item.getInputStream();  
+
+    	            int length = 0;  
+    	            byte[] buf = new byte[1024];  
+    	            System.out.println("获取文件总量的容量:"+ item.getSize());  
+
+    	            while((length = in.read(buf))!=-1){  
+    	                out.write(buf,0,length);  
+    	            }  
+    	            in.close();  
+    	            out.close();  
+    	        }  
+    	    }  
+    	}catch(Exception e){  
+    	    e.printStackTrace();  
+    	}
     }
     
     /**
